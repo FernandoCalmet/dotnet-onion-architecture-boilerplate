@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Common\" />
+    <Folder Include="Emails\" />
+    <Folder Include="Messaging\" />
+    <Folder Include="Notifications\" />
+    <Folder Include="Persistence\Migrations\" />
+    <Folder Include="Persistence\Configurations\" />
+    <Folder Include="Persistence\Extensions\" />
+    <Folder Include="Persistence\Repositories\" />
+    <Folder Include="Authorization\" />
+    <Folder Include="BackgroundJobs\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MyCompany.MyProduct.Core\MyCompany.MyProduct.Core.csproj" />
+  </ItemGroup>
+
+</Project>
