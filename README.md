@@ -15,15 +15,14 @@
 
 ## DESCRIPTION
 
-This project is a DOTNET template skeleton based on onion architecture.  
-👓[Read more about this project](https://github.com/FernandoCalmet/dotnet-onion-architecture-skeleton/wiki)
+This project is a DOTNET template boilerplate based on onion architecture.
 
 ## INSTALL
 
 Clone this repository
 
 ```bash
-gh repo clone FernandoCalmet/dotnet-onion-architecture-skeleton
+gh repo clone FernandoCalmet/dotnet-onion-architecture-boilerplate
 ```
 
 ## SUMMARY
@@ -71,10 +70,12 @@ MyCompany.MyProduct.sln
 │   │   └───Specifications
 │   │
 │   ├───MyCompany.MyProduct.Infrastructure
-│   │   ├───Authorization
+│   │   ├───Authentication
 │   │   ├───BackgroundJobs
 │   │   ├───Common
 │   │   ├───Emails
+│   │   ├───Identity
+│   │   ├───Mapping
 │   │   ├───Messaging
 │   │   ├───Notifications
 │   │   └───Persistence
@@ -91,7 +92,7 @@ MyCompany.MyProduct.sln
 │   │   │   ├───Emails
 │   │   │   ├───Messaging
 │   │   │   └───Notifications
-│   │   ├───Behaviours
+│   │   ├───Behaviors
 │   │   ├───Exceptions
 │   │   ├───Extensions
 │   │   └───UsesCases
