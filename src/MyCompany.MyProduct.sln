@@ -15,18 +15,20 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCompany.MyProduct.Present
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{BA5A0443-8E80-4BF5-8B97-4E3508865D27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCompany.MyProduct.Core.UnitTests", "..\tests\MyCompany.MyProduct.Core.UnitTests\MyCompany.MyProduct.Core.UnitTests.csproj", "{7D48B563-000C-48EB-87A7-CB002211CF75}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCompany.MyProduct.Core.UnitTests", "..\tests\MyCompany.MyProduct.Core.UnitTests\MyCompany.MyProduct.Core.UnitTests.csproj", "{7D48B563-000C-48EB-87A7-CB002211CF75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCompany.MyProduct.Infrastructure.UnitTests", "..\tests\MyCompany.MyProduct.Infrastructure.UnitTests\MyCompany.MyProduct.Infrastructure.UnitTests.csproj", "{7298CF92-4FD1-4819-BE8E-2319CC3AE026}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCompany.MyProduct.Infrastructure.UnitTests", "..\tests\MyCompany.MyProduct.Infrastructure.UnitTests\MyCompany.MyProduct.Infrastructure.UnitTests.csproj", "{7298CF92-4FD1-4819-BE8E-2319CC3AE026}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCompany.MyProduct.Application.UnitTests", "..\tests\MyCompany.MyProduct.Application.UnitTests\MyCompany.MyProduct.Application.UnitTests.csproj", "{68B505EB-34EE-46B8-8E93-0D61E52A94EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCompany.MyProduct.Application.UnitTests", "..\tests\MyCompany.MyProduct.Application.UnitTests\MyCompany.MyProduct.Application.UnitTests.csproj", "{68B505EB-34EE-46B8-8E93-0D61E52A94EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCompany.MyProduct.Presentation.UnitTests", "..\tests\MyCompany.MyProduct.Presentation.UnitTests\MyCompany.MyProduct.Presentation.UnitTests.csproj", "{0FB5AC87-006C-4D51-B1BC-3D6CB4470748}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCompany.MyProduct.Presentation.UnitTests", "..\tests\MyCompany.MyProduct.Presentation.UnitTests\MyCompany.MyProduct.Presentation.UnitTests.csproj", "{0FB5AC87-006C-4D51-B1BC-3D6CB4470748}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BC2D97B6-DEAA-469B-BFAA-F8F112018D04}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCompany.MyProduct.WebApi", "MyCompany.MyProduct.WebApi\MyCompany.MyProduct.WebApi.csproj", "{3FAB7BA6-3825-4916-AC0A-8881F28AE195}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -66,6 +68,10 @@ Global
 		{0FB5AC87-006C-4D51-B1BC-3D6CB4470748}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FB5AC87-006C-4D51-B1BC-3D6CB4470748}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0FB5AC87-006C-4D51-B1BC-3D6CB4470748}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FAB7BA6-3825-4916-AC0A-8881F28AE195}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FAB7BA6-3825-4916-AC0A-8881F28AE195}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FAB7BA6-3825-4916-AC0A-8881F28AE195}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FAB7BA6-3825-4916-AC0A-8881F28AE195}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -79,6 +85,7 @@ Global
 		{7298CF92-4FD1-4819-BE8E-2319CC3AE026} = {BA5A0443-8E80-4BF5-8B97-4E3508865D27}
 		{68B505EB-34EE-46B8-8E93-0D61E52A94EC} = {BA5A0443-8E80-4BF5-8B97-4E3508865D27}
 		{0FB5AC87-006C-4D51-B1BC-3D6CB4470748} = {BA5A0443-8E80-4BF5-8B97-4E3508865D27}
+		{3FAB7BA6-3825-4916-AC0A-8881F28AE195} = {5A411BE5-0807-43EE-85DE-C701827F05E6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C45AE4D8-F488-4118-AB42-4C737BFA71A9}
