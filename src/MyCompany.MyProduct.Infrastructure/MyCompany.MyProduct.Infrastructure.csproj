@@ -7,19 +7,36 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Authorization\**" />
+    <EmbeddedResource Remove="Authorization\**" />
+    <None Remove="Authorization\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Common\" />
     <Folder Include="Emails\" />
     <Folder Include="Messaging\" />
+    <Folder Include="Authentication\" />
+    <Folder Include="Mapping\" />
     <Folder Include="Notifications\" />
+    <Folder Include="Persistence\Configurations\Identity\" />
     <Folder Include="Persistence\Migrations\" />
-    <Folder Include="Persistence\Configurations\" />
     <Folder Include="Persistence\Extensions\" />
+    <Folder Include="Persistence\Constants\" />
     <Folder Include="Persistence\Repositories\" />
-    <Folder Include="Authorization\" />
     <Folder Include="BackgroundJobs\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Mapster" Version="7.3.0" />
+    <PackageReference Include="Mapster.DependencyInjection" Version="1.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MyCompany.MyProduct.Application\MyCompany.MyProduct.Application.csproj" />
     <ProjectReference Include="..\MyCompany.MyProduct.Core\MyCompany.MyProduct.Core.csproj" />
   </ItemGroup>
 
