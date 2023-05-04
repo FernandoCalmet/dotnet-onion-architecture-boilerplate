@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using MediatR;
+using Microsoft.Extensions.DependencyInjection;
+using MyCompany.MyProduct.Application.Behaviors;
 using System.Reflection;
 
 namespace MyCompany.MyProduct.Application;
@@ -7,13 +9,34 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
-        ConfigureMediatr(services);
+        ConfigureServices(services);
         return services;
     }
 
-    private static void ConfigureMediatr(IServiceCollection services)
+    private static void ConfigureServices(IServiceCollection services)
+    {
+        ConfigureMediatR(services);
+        ConfigurePipelineBehaviors(services);
+    }
+
+    private static void ConfigureMediatR(IServiceCollection services)
     {
         services.AddMediatR(config =>
             config.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+    }
+
+    private static void ConfigurePipelineBehaviors(IServiceCollection services)
+    {
+        services.AddScoped(
+            typeof(IPipelineBehavior<,>),
+            typeof(ValidationPipelineBehavior<,>));
+
+        services.AddScoped(
+            typeof(IPipelineBehavior<,>),
+            typeof(LoggingPipelineBehavior<,>));
+
+        services.AddScoped(
+            typeof(IPipelineBehavior<,>),
+            typeof(TransactionBehavior<,>));
     }
 }

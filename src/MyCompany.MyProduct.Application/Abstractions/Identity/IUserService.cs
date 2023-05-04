@@ -1,9 +1,13 @@
-﻿namespace MyCompany.MyProduct.Application.Abstractions.Identity;
+﻿using MyCompany.MyProduct.Core.Shared.ResultComponent;
+
+namespace MyCompany.MyProduct.Application.Abstractions.Identity;
 
 public interface IUserService
 {
     // User
+    Task<Result> CreateUserAsync(UserDto user, string password);
     Task<UserDto> FindByEmailAsync(string email);
+    Task<bool> IsEmailUniqueAsync(string email);
     Task<bool> CheckPasswordAsync(UserDto user, string password);
     Task<bool> HasPasswordAsync(UserDto user);
 
@@ -40,4 +44,5 @@ public interface IUserService
     // Password Reset
     Task<string> GeneratePasswordResetTokenAsync(UserDto user);
     Task<string> ResetPasswordAsync(UserDto user, string token, string newPassword);
+    Task<string> ChangePasswordAsync(UserDto user, string currentPassword, string newPassword);
 }
