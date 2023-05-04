@@ -13,7 +13,6 @@ internal sealed class LoginUserQueryHandler
     private readonly IUserService _userService;
     private readonly IJwtProvider _jwtProvider;
 
-
     public LoginUserQueryHandler(IUserService userService, IJwtProvider jwtProvider)
     {
         _userService = userService;
@@ -36,9 +35,9 @@ internal sealed class LoginUserQueryHandler
             return Result.Failure<AuthenticationResult>(emailValidationResult.Error);
         }
 
-        var validationResult = await ValidateUserAsync(user, request.Password);
-        return validationResult.IsFailure
-            ? Result.Failure<AuthenticationResult>(validationResult.Error)
+        var credentialsValidationResult = await ValidateUserCredentialsAsync(user, request.Password);
+        return credentialsValidationResult.IsFailure
+            ? Result.Failure<AuthenticationResult>(credentialsValidationResult.Error)
             : Result.Success(CreateAuthenticationResult(user));
     }
 
@@ -56,17 +55,6 @@ internal sealed class LoginUserQueryHandler
         return !isValidPassword
             ? Result.Failure(ValidationErrors.Authentication.InvalidEmailOrPassword)
             : Result.Success();
-    }
-
-    private async Task<Result> ValidateUserAsync(UserDto user, string password)
-    {
-        var emailValidationResult = await ValidateEmailConfirmationAsync(user);
-        if (emailValidationResult.IsFailure)
-        {
-            return emailValidationResult;
-        }
-
-        return await ValidateUserCredentialsAsync(user, password);
     }
 
     private AuthenticationResult CreateAuthenticationResult(UserDto user)
