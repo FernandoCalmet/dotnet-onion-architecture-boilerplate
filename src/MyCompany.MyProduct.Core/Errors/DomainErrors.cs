@@ -1,5 +1,5 @@
 ﻿namespace MyCompany.MyProduct.Core.Errors;
 
-public static class DomainErrors
+public static partial class DomainErrors
 {
 }

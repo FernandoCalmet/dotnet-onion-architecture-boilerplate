@@ -40,6 +40,10 @@ public class Result
     public static Result<TValue> Create<TValue>(TValue? value) =>
         value is not null ? Success(value) : Failure<TValue>(Error.NullValue);
 
+    public static Result<TValue> Create<TValue>(TValue value, Error error)
+        where TValue : class
+        => value is null ? Failure<TValue>(error) : Success(value);
+
     public static Result FirstFailureOrSuccess(params Result[] results)
     {
         foreach (Result result in results)
