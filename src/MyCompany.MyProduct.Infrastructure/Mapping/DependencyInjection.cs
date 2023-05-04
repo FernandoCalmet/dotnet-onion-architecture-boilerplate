@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace MyCompany.MyProduct.Infrastructure.Mapping;
 
-public static class DependencyInjection
+internal static class DependencyInjection
 {
     public static IServiceCollection AddMapping(this IServiceCollection services)
     {

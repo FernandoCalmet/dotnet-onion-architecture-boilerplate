@@ -9,6 +9,7 @@ internal static class DependencyInjection
 {
     public static IServiceCollection AddAuthenticationServices(this IServiceCollection services)
     {
+        ConfigureJwtProvider(services);
         ConfigureJwtOptions(services);
         ConfigureJwtBearerOptions(services);
         AddAuthentication(services);
@@ -16,6 +17,9 @@ internal static class DependencyInjection
 
         return services;
     }
+
+    private static void ConfigureJwtProvider(IServiceCollection services) =>
+        services.AddScoped<IJwtProvider, JwtProvider>();
 
     private static void ConfigureJwtOptions(IServiceCollection services) =>
         services.ConfigureOptions<JwtOptionsSetup>();

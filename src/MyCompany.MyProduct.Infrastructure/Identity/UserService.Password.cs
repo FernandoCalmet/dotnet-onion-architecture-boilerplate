@@ -16,4 +16,11 @@ internal partial class UserService
         var result = await _userManager.ResetPasswordAsync(appUser, token, newPassword);
         return result.Succeeded ? null : string.Join(", ", result.Errors.Select(e => e.Description));
     }
+
+    public async Task<string> ChangePasswordAsync(UserDto user, string currentPassword, string newPassword)
+    {
+        var appUser = await _userManager.FindByIdAsync(user.Id.ToString());
+        var result = await _userManager.ChangePasswordAsync(appUser, currentPassword, newPassword);
+        return result.Succeeded ? null : string.Join(", ", result.Errors.Select(e => e.Description));
+    }
 }
