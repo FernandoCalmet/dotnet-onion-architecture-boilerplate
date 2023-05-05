@@ -25,6 +25,12 @@ Clone this repository
 gh repo clone FernandoCalmet/dotnet-onion-architecture-boilerplate
 ```
 
+## MIGRATION
+
+```
+dotnet ef migrations add InitialMigration --context MyCompany.MyProduct.Infrastructure.Persistence.ApplicationDbContext --output-dir Persistence/Migrations --project MyCompany.MyProduct.WebAPI
+```
+
 ## SUMMARY
 
 ### Simplifying Software Development
