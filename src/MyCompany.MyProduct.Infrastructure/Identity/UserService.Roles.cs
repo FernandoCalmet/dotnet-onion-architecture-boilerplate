@@ -20,7 +20,7 @@ internal partial class UserService
 
     public async Task CreateRoleAsync(RoleDto roleDto)
     {
-        var role = roleDto.Adapt<IdentityRole<Guid>>();
+        var role = roleDto.Adapt<ApplicationRole>();
         await _roleManager.CreateAsync(role);
     }
 

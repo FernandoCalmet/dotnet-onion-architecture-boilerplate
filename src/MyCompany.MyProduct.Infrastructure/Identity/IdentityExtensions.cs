@@ -1,32 +1,41 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using MyCompany.MyProduct.Application.Abstractions.Identity;
-using MyCompany.MyProduct.Infrastructure.Persistence;
+using MyCompany.MyProduct.Infrastructure.Persistence.Identity;
 
 namespace MyCompany.MyProduct.Infrastructure.Identity;
 
-internal static class DependencyInjection
+internal static class IdentityExtensions
 {
-    public static void ConfigureIdentity(this IServiceCollection services)
+    internal static IServiceCollection ConfigureIdentity(this IServiceCollection services)
     {
         AddScopedUserService(services);
         ConfigureIdentityCore(services);
-        ConfigureIdentityPasswordOptions(services);
-        ConfigureIdentityLockoutOptions(services);
-        ConfigureIdentityTwoFactorOptions(services);
+        ConfigureIdentityOptions(services);
+
+        return services;
     }
 
     private static void AddScopedUserService(IServiceCollection services) =>
         services.AddScoped<IUserService, UserService>();
 
-    private static void ConfigureIdentityCore(IServiceCollection services) =>
-        services.AddIdentityCore<ApplicationUser>(options =>
-            {
-                options.User.RequireUniqueEmail = true;
-            })
-            .AddRoles<IdentityRole<Guid>>()
-            .AddEntityFrameworkStores<ApplicationDbContext>()
+    private static void ConfigureIdentityCore(IServiceCollection services)
+    {
+        services.AddIdentityCore<ApplicationUser>(options => { options.User.RequireUniqueEmail = true; })
+            .AddRoles<ApplicationRole>()
+            .AddEntityFrameworkStores<IdentityDbContext>()
             .AddTokenProvider(TokenOptions.DefaultAuthenticatorProvider, typeof(GuidAuthenticatorTokenProvider));
+
+        services.AddScoped<UserManager<ApplicationUser>, UserManager<ApplicationUser>>();
+        services.AddScoped<RoleManager<ApplicationRole>, RoleManager<ApplicationRole>>();
+    }
+
+    private static void ConfigureIdentityOptions(IServiceCollection services)
+    {
+        ConfigureIdentityPasswordOptions(services);
+        ConfigureIdentityLockoutOptions(services);
+        ConfigureIdentityTwoFactorOptions(services);
+    }
 
     private static void ConfigureIdentityPasswordOptions(IServiceCollection services) =>
         services.Configure<IdentityOptions>(options =>

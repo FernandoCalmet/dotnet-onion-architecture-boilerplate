@@ -13,8 +13,6 @@ public class JwtOptionsSetup : IConfigureOptions<JwtOptions>
         _configuration = configuration;
     }
 
-    public void Configure(JwtOptions options)
-    {
+    public void Configure(JwtOptions options) => 
         _configuration.GetSection(SectionName).Bind(options);
-    }
 }

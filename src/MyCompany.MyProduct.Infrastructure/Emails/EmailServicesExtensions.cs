@@ -3,8 +3,8 @@ using MyCompany.MyProduct.Application.Abstractions.Emails;
 
 namespace MyCompany.MyProduct.Infrastructure.Emails;
 
-internal static class DependencyInjection
+internal static class EmailServicesExtensions
 {
-    public static IServiceCollection AddEmailServices(this IServiceCollection services) =>
+    internal static IServiceCollection AddEmailServices(this IServiceCollection services) =>
         services.AddTransient<IEmailService, EmailService>();
 }

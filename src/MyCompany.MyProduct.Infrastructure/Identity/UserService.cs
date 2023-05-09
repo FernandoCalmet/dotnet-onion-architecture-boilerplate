@@ -9,12 +9,12 @@ namespace MyCompany.MyProduct.Infrastructure.Identity;
 internal partial class UserService : IUserService
 {
     private readonly UserManager<ApplicationUser> _userManager;
-    private readonly RoleManager<IdentityRole<Guid>> _roleManager;
+    private readonly RoleManager<ApplicationRole> _roleManager;
     private readonly IPasswordHasher<ApplicationUser> _passwordHasher;
 
     public UserService(
         UserManager<ApplicationUser> userManager,
-        RoleManager<IdentityRole<Guid>> roleManager,
+        RoleManager<ApplicationRole> roleManager,
         IPasswordHasher<ApplicationUser> passwordHasher)
     {
         _userManager = userManager;

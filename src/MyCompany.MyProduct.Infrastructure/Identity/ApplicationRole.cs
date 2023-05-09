@@ -2,8 +2,7 @@
 
 namespace MyCompany.MyProduct.Infrastructure.Identity;
 
-public class ApplicationUser : IdentityUser<Guid>
+public class ApplicationRole : IdentityRole<Guid>
 {
     public virtual ICollection<ApplicationUserRole> UserRoles { get; set; } = null!;
-    public ICollection<ApplicationUserToken> UserTokens { get; set; } = null!;
 }

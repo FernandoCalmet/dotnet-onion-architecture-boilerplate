@@ -2,6 +2,7 @@
 
 internal static class TableNames
 {
+    internal const string MigrationsHistory = nameof(MigrationsHistory);
     internal const string UserTokens = nameof(UserTokens);
     internal const string UserRoles = nameof(UserRoles);
     internal const string UserLogins = nameof(UserLogins);

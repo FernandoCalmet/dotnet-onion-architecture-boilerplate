@@ -5,9 +5,9 @@ using System.Reflection;
 
 namespace MyCompany.MyProduct.Infrastructure.Mapping;
 
-internal static class DependencyInjection
+internal static class MappingExtensions
 {
-    public static IServiceCollection AddMapping(this IServiceCollection services)
+    internal static IServiceCollection AddMapping(this IServiceCollection services)
     {
         TypeAdapterConfig config = TypeAdapterConfig.GlobalSettings;
         config.Scan(Assembly.GetExecutingAssembly());

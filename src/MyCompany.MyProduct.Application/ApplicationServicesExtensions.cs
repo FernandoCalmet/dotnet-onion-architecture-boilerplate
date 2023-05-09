@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace MyCompany.MyProduct.Application;
 
-public static class DependencyInjection
+public static class ApplicationServicesExtensions
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
@@ -19,11 +19,9 @@ public static class DependencyInjection
         ConfigurePipelineBehaviors(services);
     }
 
-    private static void ConfigureMediatR(IServiceCollection services)
-    {
+    private static void ConfigureMediatR(IServiceCollection services) =>
         services.AddMediatR(config =>
             config.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
-    }
 
     private static void ConfigurePipelineBehaviors(IServiceCollection services)
     {

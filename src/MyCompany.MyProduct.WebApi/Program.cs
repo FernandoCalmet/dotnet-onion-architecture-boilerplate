@@ -1,4 +1,4 @@
-using MyCompany.MyProduct.WebApi.Configuration;
+using MyCompany.MyProduct.WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.ConfigureServices();

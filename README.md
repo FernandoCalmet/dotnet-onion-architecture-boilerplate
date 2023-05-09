@@ -25,10 +25,24 @@ Clone this repository
 gh repo clone FernandoCalmet/dotnet-onion-architecture-boilerplate
 ```
 
-## MIGRATION
+Database Migrations
 
 ```
-dotnet ef migrations add InitialMigration --context MyCompany.MyProduct.Infrastructure.Persistence.ApplicationDbContext --output-dir Persistence/Migrations --project MyCompany.MyProduct.WebAPI
+dotnet-ef migrations add InitialCreate --startup-project MyCompany.MyProduct.WebApi --project MyCompany.MyProduct.Infrastructure --output-dir Persistence\Migrations --context IdentityDbContext
+```
+
+```
+dotnet-ef migrations add InitialCreate --startup-project MyCompany.MyProduct.WebApi --project MyCompany.MyProduct.Infrastructure --output-dir Persistence\Migrations --context ApplicationDbContext
+```
+
+Database Update
+
+```
+dotnet-ef database update --startup-project MyCompany.MyProduct.WebApi --project MyCompany.MyProduct.Infrastructure --context IdentityDbContext
+```
+
+```
+dotnet-ef database update --startup-project MyCompany.MyProduct.WebApi --project MyCompany.MyProduct.Infrastructure --context ApplicationDbContext
 ```
 
 ## SUMMARY
@@ -84,9 +98,12 @@ MyCompany.MyProduct.sln
 │   │   ├───Mapping
 │   │   ├───Messaging
 │   │   ├───Notifications
+│   │   ├───OpenApi
 │   │   └───Persistence
 │   │       ├───Configurations
+│   │       ├───Constants
 │   │       ├───Extensions
+│   │       ├───Identity
 │   │       ├───Migrations
 │   │       └───Repositories
 │   │
@@ -96,6 +113,7 @@ MyCompany.MyProduct.sln
 │   │   │   ├───Common
 │   │   │   ├───Data
 │   │   │   ├───Emails
+│   │   │   ├───Identity
 │   │   │   ├───Messaging
 │   │   │   └───Notifications
 │   │   ├───Behaviors
@@ -129,7 +147,7 @@ In this example, the Core project contains the domain entities and business logi
 In conclusion, Onion Architecture is an excellent software design pattern that can help you build robust and maintainable applications. By separating the application into different layers, it promotes decoupling and testability. We hope that this article has given you a good understanding of Onion Architecture and its implementation in Dotnet. Next time you start a new project, give Onion Architecture a try, and see the difference yourself!
 
 ## LICENSE
-This project is licensed under the License (MIT License) - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the License (MIT License) - see the [LICENSE](LICENSE.md) file for details.
 
 ## GIVE ME A STAR
 If you found this Implementation useful or used it in your Projects, please give it a star. Thank you! Or, if you're feeling really generous, [Support the project with a small contribution!](https://ko-fi.com/fernandocalmet).

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -10,19 +10,14 @@
     <Compile Remove="Authorization\**" />
     <EmbeddedResource Remove="Authorization\**" />
     <None Remove="Authorization\**" />
-  </ItemGroup>
+  </ItemGroup>	
 
   <ItemGroup>
-    <Folder Include="Common\" />
-    <Folder Include="Emails\" />
     <Folder Include="Messaging\" />
-    <Folder Include="Authentication\" />
-    <Folder Include="Mapping\" />
-    <Folder Include="Notifications\" />
-    <Folder Include="Persistence\Configurations\Identity\" />
-    <Folder Include="Persistence\Migrations\" />
+    <Folder Include="Persistence\Configurations\" />
     <Folder Include="Persistence\Extensions\" />
     <Folder Include="Persistence\Constants\" />
+    <Folder Include="Persistence\Identity\Configurations\" />
     <Folder Include="Persistence\Repositories\" />
     <Folder Include="BackgroundJobs\" />
   </ItemGroup>
@@ -32,12 +27,24 @@
     <PackageReference Include="Mapster.DependencyInjection" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.5" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MyCompany.MyProduct.Application\MyCompany.MyProduct.Application.csproj" />
     <ProjectReference Include="..\MyCompany.MyProduct.Core\MyCompany.MyProduct.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+		<_Parameter1>MyCompany.MyProduct.WebApi</_Parameter1>
+	</AssemblyAttribute>
   </ItemGroup>
 
 </Project>

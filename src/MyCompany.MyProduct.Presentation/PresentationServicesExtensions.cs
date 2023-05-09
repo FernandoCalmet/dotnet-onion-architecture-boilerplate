@@ -2,7 +2,7 @@
 
 namespace MyCompany.MyProduct.Presentation;
 
-public static class DependencyInjection
+public static class PresentationServicesExtensions
 {
     public static IServiceCollection AddPresentationServices(this IServiceCollection services)
     {
@@ -10,15 +10,10 @@ public static class DependencyInjection
         return services;
     }
 
-    private static void ConfigureServices(IServiceCollection services)
-    {
-        AddControllers(services);
-    }
+    private static void ConfigureServices(IServiceCollection services) => AddControllers(services);
 
-    private static void AddControllers(IServiceCollection services)
-    {
+    private static void AddControllers(IServiceCollection services) =>
         services
             .AddControllers()
             .AddApplicationPart(PresentationAssembly.Assembly);
-    }
 }
