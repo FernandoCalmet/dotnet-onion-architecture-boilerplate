@@ -1,0 +1,7 @@
+{
+  "Jwt": {
+    "Issuer": "MyProduct",
+    "Audience": "MyProduct",
+    "SecretKey": "super-secret-key-value!"
+  }
+}

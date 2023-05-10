@@ -1,0 +1,17 @@
+{
+  "SwaggerOptions": {
+    "Enable": true,
+    "Name": "v1",
+    "Title": "MyProduct API",
+    "Version": "v1",
+    "Description": "JWT Authorization header using the Bearer scheme.",
+    "ContactName": "Fernando Calmet",
+    "ContactEmail": "fernando.calmet@outlook.com",
+    "ContactUrl": "https://www.linkedin.com/in/fernandocalmet/",
+    "License": true,
+    "LicenseName": "MIT",
+    "LicenseUrl": "https://github.com/FernandoCalmet/dotnet-onion-architecture-boilerplate/blob/main/LICENSE.md",
+    "SecurityName": "Authorization",
+    "SecurityScheme": "Bearer"
+  }
+}

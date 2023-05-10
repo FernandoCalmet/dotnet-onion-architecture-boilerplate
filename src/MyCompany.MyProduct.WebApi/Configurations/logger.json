@@ -1,0 +1,14 @@
+{
+  "LoggerOptions": {
+    "AppName": "MyCompany.MyProduct.WebApi",
+    "ElasticSearchUrl": "http://localhost:9200",
+    "WriteToFile": true,
+    "StructuredConsoleLogging": false
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  }
+}

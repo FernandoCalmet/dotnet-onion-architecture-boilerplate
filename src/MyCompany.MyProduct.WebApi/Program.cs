@@ -1,4 +1,4 @@
-using MyCompany.MyProduct.WebApi;
+using MyCompany.MyProduct.WebApi.Configurations;
 using Serilog;
 
 Log.Information("Server Booting Up...");
