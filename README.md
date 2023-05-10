@@ -1,78 +1,93 @@
-# 🦄 DOTNET TEMPLATE SKELETON BASED ON ONION ARCHITECTURE
+# 🦄 DOTNET TEMPLATE BOILERPLATE BASED ON ONION ARCHITECTURE
 
 [![Github][github-shield]][github-url]
 [![Kofi][kofi-shield]][kofi-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 [![Khanakat][khanakat-shield]][khanakat-url]
 
-## CONTENT
+## Table of Contents
 
 * 🔥 [Description](#description)
-* ⚙️ [Install](#install)
-* 📓 [Summary](#summary)
+* ⚙️ [Install and Setup](#installation-and-setup)
+* 📓 [Project Overview](#project-overview)
 * 📄 [License](#license)
-* ⭐️ [Give me a star](#give-me-a-star)
+* ⭐️ [Support the Project](#support-the-project)
 
-## DESCRIPTION
+## Description
 
-This project is a DOTNET template boilerplate based on onion architecture.
+This project provides a robust template for a .NET solution, based on the principles of Onion Architecture. It serves as an excellent starting point for any application, ensuring a clean and maintainable codebase.
 
-## INSTALL
+## Installation and Setup
 
-Clone this repository
+This section will guide you through the process of setting up the project on your local machine.
+
+### Step 1: Clone the Repository
+Start by cloning the repository to your local machine. You can accomplish this by using the following gh command:
 
 ```bash
 gh repo clone FernandoCalmet/dotnet-onion-architecture-boilerplate
 ```
 
-Database Migrations
+### Step 2: Database Migrations
+Once you have the repository on your local machine, the next step is to set up the database. Start by running the migrations.
 
-```
+For the IdentityDbContext use the following command:
+
+```bash
 dotnet-ef migrations add InitialCreate --startup-project MyCompany.MyProduct.WebApi --project MyCompany.MyProduct.Persistence --output-dir Migrations\Identity --context IdentityDbContext
 ```
 
-```
+For the ApplicationDbContext, use the following command:
+
+```bash
 dotnet-ef migrations add InitialCreate --startup-project MyCompany.MyProduct.WebApi --project MyCompany.MyProduct.Persistence --output-dir Migrations\Application --context ApplicationDbContext
 ```
 
-Database Update
+### Step 3: Database Update
+After running the migrations, update the database.
 
-```
+For the IdentityDbContext use the following command:
+
+```bash
 dotnet-ef database update --startup-project MyCompany.MyProduct.WebApi --project MyCompany.MyProduct.Persistence --context IdentityDbContext
 ```
 
-```
+For the ApplicationDbContext, use the following command:
+
+```bash
 dotnet-ef database update --startup-project MyCompany.MyProduct.WebApi --project MyCompany.MyProduct.Persistence --context ApplicationDbContext
 ```
 
-## SUMMARY
+Congratulations, you have now set up the project on your local machine and you're ready to start developing!
 
-### Simplifying Software Development
-As a software developer, you're probably aware that designing a robust, scalable, and maintainable software architecture is not an easy task. That's where Onion Architecture comes in as an approach to software development that helps overcome these challenges. In this article, we'll dive deeper into Onion Architecture, its benefits, and how to implement it in Dotnet.
+## Project Overview
 
-### Understanding Onion Architecture
-Onion Architecture is a software design pattern developed by Jeffrey Palermo. It is adopted from Uncle Bob's Clean Architecture, and the idea behind the concept is to make software independent of frameworks, databases, UI, and other external dependencies. Simply put, it helps to decouple the application into different layers, with each layer representing a specific concern or responsibility. The Onion Architecture comprises four layers: 
+### The Challenge of Software Development
+Crafting robust, scalable, and maintainable software architecture presents a significant challenge for developers. Onion Architecture emerges as a solution, offering a software development approach designed to mitigate these difficulties. This project provides a deep dive into Onion Architecture, highlighting its benefits and demonstrating its implementation in a .NET environment.
+
+### Unveiling Onion Architecture
+Developed by Jeffrey Palermo and influenced by Uncle Bob's Clean Architecture, Onion Architecture aims to make software independent of external dependencies such as frameworks, databases, UI, and more. It promotes the decoupling of an application into distinct layers, each layer tackling a specific concern or responsibility. The architecture typically consists of four layers:
 
 ### Domain Layer
-The Domain layer is the heart of the Onion Architecture. It defines the core business logic of the application and contains entities, value objects, business rules, and interfaces that define contracts with other layers.
+The heart of Onion Architecture, the Domain Layer, encapsulates the core business logic of the application, including entities, value objects, business rules, and interfaces that outline contracts with other layers.
 
 ### Application Layer
-The Application layer works as an interface between the Presentation and the Domain layer. It contains application services, which orchestrate the application flow and maps the data between the Domain and Presentation layer.
+The Application Layer serves as a bridge between the Presentation and Domain layers. It houses application services that dictate application flow and map data between the Domain and Presentation layers.
 
 ### Infrastructure Layer
-The Infrastructure layer contains all the technical details of the application, like data storage, logging, messaging, and so on. It also implements the interfaces defined in the Domain layer.
+The Infrastructure Layer encompasses all technical components of the application, such as data storage, logging, messaging, and more. It also implements the interfaces defined in the Domain Layer.
 
 ### Persistence Layer
-The Persistence layer handles all data storage and retrieval operations within the application. It directly communicates with the underlying database or other persistent storage mechanisms. It's designed to encapsulate and implement the data access logic, ensuring data consistency and integrity. It interacts with the Domain layer via the interfaces defined there, translating between the language of the domain and the language of the database.
+Handling all data storage and retrieval operations, the Persistence Layer communicates directly with the underlying database or other persistent storage mechanisms. This layer encapsulates and implements the data access logic, safeguarding data consistency and integrity. It interacts with the Domain Layer via the defined interfaces, translating between the language of the domain and that of the database.
 
 ### Presentation Layer
 The Presentation layer is responsible for presenting the application output to the users, like web pages, APIs, and user interfaces. It communicates with the Application layer to get the information from the Domain layer.
 
-### Benefits of Onion Architecture in Dotnet
-Onion Architecture provides several benefits, like testability, maintainability, and flexibility. With Onion Architecture, you can write unit tests that only depend on the Domain layer and are not affected by any framework or external dependencies. It makes it easier to switch the UI or the database layer without affecting the core business logic. Moreover, the architecture follows the Single Responsibility Principle, making the code easier to maintain and refactor.
+### Advantages of Onion Architecture in .NET
+Onion Architecture brings several advantages to the table, including improved testability, maintainability, and flexibility. With Onion Architecture, unit tests that depend solely on the Domain Layer can be written, unaffected by any framework or external dependencies. This makes transitioning the UI or the database layer feasible without impacting the core business logic. The architecture also adheres to the Single Responsibility Principle, making the code more maintainable and easier to refactor.
 
-### Structure
-Here's my design of how the directory structure might look:
+### Project Structure
+Below is a representation of a potential directory structure for this architecture:
 
 ```
 MyCompany.MyProduct.sln
@@ -138,24 +153,24 @@ MyCompany.MyProduct.sln
     └───MyCompany.MyProduct.Presentation.UnitTests
 ```
 
-In this example, the Core project contains the domain entities and business logic, the Application project contains the use cases and services, the Infrastructure project contains technical concerns like logging and messaging, the Persistence project takes care of data access, and the Presentation project contains the user interface components. The references between the projects are as follows:
+In this design, the Core project contains the domain entities and business logic, the Application project hosts the use cases and services, the Infrastructure project covers technical components like logging and messaging, the Persistence project is responsible for data access, and the Presentation project includes user interface components. The project dependencies are as follows:
 
 - The Core project has no dependencies.
 - The Application project depends on the Core project.
-- The Infrastructure project depends on the Core project and any third-party libraries necessary for its concerns.
-- The Persistence project depends on the Core project and any third-party libraries necessary for data access.
-- The Presentation project depends on the Application, Core, and possibly Persistence and Infrastructure projects.
+- The Infrastructure project depends on the Core project and any necessary third-party libraries for its responsibilities.
+- The Persistence project depends on the Core project and any necessary third-party libraries for data access.
+- The Presentation project depends on the Application, Core, and potentially the Persistence and Infrastructure projects.
 
-`Note that this is just one example of how to implement Onion Architecture in .NET, and you may need to adapt it to your specific needs and preferences`.
+`Please note, this is one example of implementing Onion Architecture in .NET; adaptations may be required to align with specific needs and preferences.`
 
 ### Conclusion
-In conclusion, Onion Architecture is an excellent software design pattern that can help you build robust and maintainable applications. By separating the application into different layers, it promotes decoupling and testability. We hope that this article has given you a good understanding of Onion Architecture and its implementation in Dotnet. Next time you start a new project, give Onion Architecture a try, and see the difference yourself!
+In summary, Onion Architecture is an exceptional design approach that aids in building resilient, maintainable applications. It encourages decoupling and testability by separating the application into distinct layers. This project aims to provide an effective illustration of Onion Architecture in a .NET setting. We invite you to utilize this architecture in your next project and experience the benefits firsthand!
 
-## LICENSE
-This project is licensed under the License (MIT License) - see the [LICENSE](LICENSE.md) file for details.
+## License
+This project is licensed under the MIT License. For more information, please refer to the [LICENSE](LICENSE.md) file.
 
-## GIVE ME A STAR
-If you found this Implementation useful or used it in your Projects, please give it a star. Thank you! Or, if you're feeling really generous, [Support the project with a small contribution!](https://ko-fi.com/fernandocalmet).
+## Support the Project
+Your support means a lot! If you find this project useful or have used it in your own work, please consider giving it a star. This small act of appreciation helps maintain momentum and encourages further development. If you're inclined to contribute more substantially, you can [make a small donation here](https://ko-fi.com/fernandocalmet). Thank you for your support!
 
 <!--- reference style links --->
 [github-shield]: https://img.shields.io/badge/-@fernandocalmet-%23181717?style=flat-square&logo=github
