@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using MediatR;
-using MyCompany.MyProduct.Core.Shared;
 using MyCompany.MyProduct.Core.Shared.ErrorComponent;
 using MyCompany.MyProduct.Core.Shared.ResultComponent;
 
