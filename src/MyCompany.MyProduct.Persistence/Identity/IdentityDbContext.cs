@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MyCompany.MyProduct.Infrastructure.Identity;
-using MyCompany.MyProduct.Infrastructure.Persistence.Identity.Configurations;
+using MyCompany.MyProduct.Persistence.Identity.Configurations;
 
-namespace MyCompany.MyProduct.Infrastructure.Persistence.Identity;
+namespace MyCompany.MyProduct.Persistence.Identity;
 
 public class IdentityDbContext : IdentityDbContext<
     ApplicationUser,

@@ -13,10 +13,7 @@
     <Folder Include="Domain\ValueObjects\" />
     <Folder Include="Repositories\" />
     <Folder Include="Services\" />
-    <Folder Include="Exceptions\" />
     <Folder Include="Primitives\" />
-    <Folder Include="Shared\EnsureComponent\" />
-    <Folder Include="Shared\MaybeComponent\" />
     <Folder Include="Specifications\" />
   </ItemGroup>
 

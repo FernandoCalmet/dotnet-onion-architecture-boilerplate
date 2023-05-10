@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
+﻿using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace MyCompany.MyProduct.Infrastructure.Persistence.Identity;
+namespace MyCompany.MyProduct.Persistence.Identity;
 
 internal class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<IdentityDbContext>
 {

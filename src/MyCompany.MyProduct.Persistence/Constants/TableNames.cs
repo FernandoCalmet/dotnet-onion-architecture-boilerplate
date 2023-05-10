@@ -1,4 +1,4 @@
-﻿namespace MyCompany.MyProduct.Infrastructure.Persistence.Constants;
+﻿namespace MyCompany.MyProduct.Persistence.Constants;
 
 internal static class TableNames
 {

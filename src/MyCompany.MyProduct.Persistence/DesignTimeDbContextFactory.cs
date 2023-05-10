@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
-namespace MyCompany.MyProduct.Infrastructure.Persistence;
+namespace MyCompany.MyProduct.Persistence;
 
 internal class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
 {

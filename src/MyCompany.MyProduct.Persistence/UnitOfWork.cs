@@ -6,7 +6,7 @@ using MyCompany.MyProduct.Application.Abstractions.Common;
 using MyCompany.MyProduct.Application.Abstractions.Data;
 using MyCompany.MyProduct.Core.Primitives;
 
-namespace MyCompany.MyProduct.Infrastructure.Persistence;
+namespace MyCompany.MyProduct.Persistence;
 
 internal sealed class UnitOfWork : IUnitOfWork
 {

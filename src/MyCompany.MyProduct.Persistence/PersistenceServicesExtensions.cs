@@ -1,18 +1,21 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyCompany.MyProduct.Application.Abstractions.Data;
-using MyCompany.MyProduct.Infrastructure.Persistence.Identity;
+using MyCompany.MyProduct.Infrastructure.Identity;
+using MyCompany.MyProduct.Persistence.Identity;
 
-namespace MyCompany.MyProduct.Infrastructure.Persistence;
+namespace MyCompany.MyProduct.Persistence;
 
-internal static class PersistenceServicesExtensions
+public static class PersistenceServicesExtensions
 {
-    internal static IServiceCollection AddPersistenceServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddPersistenceServices(this IServiceCollection services, IConfiguration configuration)
     {
         ConfigureApplicationDbContext(services, configuration);
         ConfigureIdentityDbContext(services, configuration);
         ConfigureServices(services);
+        ConfigureIdentityCore(services);
 
         return services;
     }
@@ -33,4 +36,10 @@ internal static class PersistenceServicesExtensions
         services.AddScoped<IdentityDbContext>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
+
+    private static void ConfigureIdentityCore(IServiceCollection services) =>
+        services.AddIdentityCore<ApplicationUser>(options => { options.User.RequireUniqueEmail = true; })
+            .AddRoles<ApplicationRole>()
+            .AddEntityFrameworkStores<IdentityDbContext>()
+            .AddTokenProvider(TokenOptions.DefaultAuthenticatorProvider, typeof(GuidAuthenticatorTokenProvider));
 }

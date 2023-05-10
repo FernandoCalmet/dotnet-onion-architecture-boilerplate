@@ -9,7 +9,6 @@ using MyCompany.MyProduct.Infrastructure.Logging;
 using MyCompany.MyProduct.Infrastructure.Mapping;
 using MyCompany.MyProduct.Infrastructure.Notifications;
 using MyCompany.MyProduct.Infrastructure.OpenApi;
-using MyCompany.MyProduct.Infrastructure.Persistence;
 
 namespace MyCompany.MyProduct.Infrastructure;
 
@@ -17,7 +16,6 @@ public static class InfrastructureServicesExtensions
 {
     public static void AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration) =>
         services
-            .AddPersistenceServices(configuration)
             .AddOpenApiDocumentationServices(configuration)
             .AddAuthenticationServices()
             .AddEmailServices()

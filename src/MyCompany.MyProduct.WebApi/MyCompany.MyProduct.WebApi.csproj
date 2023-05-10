@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MyCompany.MyProduct.Infrastructure\MyCompany.MyProduct.Infrastructure.csproj" />
+    <ProjectReference Include="..\MyCompany.MyProduct.Persistence\MyCompany.MyProduct.Persistence.csproj" />
     <ProjectReference Include="..\MyCompany.MyProduct.Presentation\MyCompany.MyProduct.Presentation.csproj" />
   </ItemGroup>
 

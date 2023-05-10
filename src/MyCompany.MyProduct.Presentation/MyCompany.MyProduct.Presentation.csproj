@@ -7,13 +7,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Folder Include="Contracts\Authentication\" />
-		<Folder Include="Controllers\" />
-		<Folder Include="Middlewares\" />
-		<Folder Include="Abstractions\" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
 

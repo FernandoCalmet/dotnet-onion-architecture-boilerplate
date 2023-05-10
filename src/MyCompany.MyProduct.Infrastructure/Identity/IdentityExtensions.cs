@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using MyCompany.MyProduct.Application.Abstractions.Identity;
-using MyCompany.MyProduct.Infrastructure.Persistence.Identity;
 
 namespace MyCompany.MyProduct.Infrastructure.Identity;
 
@@ -21,11 +20,6 @@ internal static class IdentityExtensions
 
     private static void ConfigureIdentityCore(IServiceCollection services)
     {
-        services.AddIdentityCore<ApplicationUser>(options => { options.User.RequireUniqueEmail = true; })
-            .AddRoles<ApplicationRole>()
-            .AddEntityFrameworkStores<IdentityDbContext>()
-            .AddTokenProvider(TokenOptions.DefaultAuthenticatorProvider, typeof(GuidAuthenticatorTokenProvider));
-
         services.AddScoped<UserManager<ApplicationUser>, UserManager<ApplicationUser>>();
         services.AddScoped<RoleManager<ApplicationRole>, RoleManager<ApplicationRole>>();
     }

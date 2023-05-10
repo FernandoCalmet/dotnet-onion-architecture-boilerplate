@@ -28,21 +28,21 @@ gh repo clone FernandoCalmet/dotnet-onion-architecture-boilerplate
 Database Migrations
 
 ```
-dotnet-ef migrations add InitialCreate --startup-project MyCompany.MyProduct.WebApi --project MyCompany.MyProduct.Infrastructure --output-dir Persistence\Migrations --context IdentityDbContext
+dotnet-ef migrations add InitialCreate --startup-project MyCompany.MyProduct.WebApi --project MyCompany.MyProduct.Persistence --output-dir Migrations\Identity --context IdentityDbContext
 ```
 
 ```
-dotnet-ef migrations add InitialCreate --startup-project MyCompany.MyProduct.WebApi --project MyCompany.MyProduct.Infrastructure --output-dir Persistence\Migrations --context ApplicationDbContext
+dotnet-ef migrations add InitialCreate --startup-project MyCompany.MyProduct.WebApi --project MyCompany.MyProduct.Persistence --output-dir Migrations\Application --context ApplicationDbContext
 ```
 
 Database Update
 
 ```
-dotnet-ef database update --startup-project MyCompany.MyProduct.WebApi --project MyCompany.MyProduct.Infrastructure --context IdentityDbContext
+dotnet-ef database update --startup-project MyCompany.MyProduct.WebApi --project MyCompany.MyProduct.Persistence --context IdentityDbContext
 ```
 
 ```
-dotnet-ef database update --startup-project MyCompany.MyProduct.WebApi --project MyCompany.MyProduct.Infrastructure --context ApplicationDbContext
+dotnet-ef database update --startup-project MyCompany.MyProduct.WebApi --project MyCompany.MyProduct.Persistence --context ApplicationDbContext
 ```
 
 ## SUMMARY
@@ -61,6 +61,9 @@ The Application layer works as an interface between the Presentation and the Dom
 
 ### Infrastructure Layer
 The Infrastructure layer contains all the technical details of the application, like data storage, logging, messaging, and so on. It also implements the interfaces defined in the Domain layer.
+
+### Persistence Layer
+The Persistence layer handles all data storage and retrieval operations within the application. It directly communicates with the underlying database or other persistent storage mechanisms. It's designed to encapsulate and implement the data access logic, ensuring data consistency and integrity. It interacts with the Domain layer via the interfaces defined there, translating between the language of the domain and the language of the database.
 
 ### Presentation Layer
 The Presentation layer is responsible for presenting the application output to the users, like web pages, APIs, and user interfaces. It communicates with the Application layer to get the information from the Domain layer.
@@ -99,14 +102,14 @@ MyCompany.MyProduct.sln
 │   │   ├───Mapping
 │   │   ├───Messaging
 │   │   ├───Notifications
-│   │   ├───OpenApi
-│   │   └───Persistence
-│   │       ├───Configurations
-│   │       ├───Constants
-│   │       ├───Extensions
-│   │       ├───Identity
-│   │       ├───Migrations
-│   │       └───Repositories
+│   │   └───OpenApi
+│   │
+│   ├───MyCompany.MyProduct.Persistence
+│   │   ├───Configurations
+│   │   ├───Constants
+│   │   ├───Identity
+│   │   ├───Migrations
+│   │   └───Repositories
 │   │
 │   ├───MyCompany.MyProduct.Application
 │   │   ├───Abstractions
@@ -135,12 +138,13 @@ MyCompany.MyProduct.sln
     └───MyCompany.MyProduct.Presentation.UnitTests
 ```
 
-In this example, the Core project contains the domain entities and business logic, the Application project contains the use cases and services, the Infrastructure project contains the data access layer, and the Presentation project contains the user interface components. The references between the projects are as follows:
+In this example, the Core project contains the domain entities and business logic, the Application project contains the use cases and services, the Infrastructure project contains technical concerns like logging and messaging, the Persistence project takes care of data access, and the Presentation project contains the user interface components. The references between the projects are as follows:
 
 - The Core project has no dependencies.
 - The Application project depends on the Core project.
-- The Infrastructure project depends on the Core project and any third-party libraries necessary for data access.
-- The Presentation project depends on the Application and Core projects.
+- The Infrastructure project depends on the Core project and any third-party libraries necessary for its concerns.
+- The Persistence project depends on the Core project and any third-party libraries necessary for data access.
+- The Presentation project depends on the Application, Core, and possibly Persistence and Infrastructure projects.
 
 `Note that this is just one example of how to implement Onion Architecture in .NET, and you may need to adapt it to your specific needs and preferences`.
 
