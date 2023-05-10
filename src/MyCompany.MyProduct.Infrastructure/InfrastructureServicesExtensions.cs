@@ -15,20 +15,26 @@ namespace MyCompany.MyProduct.Infrastructure;
 
 public static class InfrastructureServicesExtensions
 {
-    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration) =>
+    public static void AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration) =>
         services
-            .AddPersistence(configuration)
-            .AddOpenApiDocumentation(configuration)
+            .AddPersistenceServices(configuration)
+            .AddOpenApiDocumentationServices(configuration)
             .AddAuthenticationServices()
             .AddEmailServices()
-            .ConfigureIdentity()
-            .AddMapping()
+            .AddIdentityServices()
+            .AddMappingServices()
             .AddCommonServices()
-            .AddNotifications();
+            .AddNotificationServices();
 
-    public static IApplicationBuilder UseInfrastructureServices(this IApplicationBuilder app) =>
-        app.UseOpenApiDocumentation();
-
-    public static void UseLoggingServices(this WebApplicationBuilder builder) =>
+    public static void AddLoggingServices(this WebApplicationBuilder builder) =>
         builder.RegisterSerilog();
+
+    public static void UseInfrastructureServices(this WebApplication app) =>
+        app
+            .UseAuthorization()
+            .UseAuthentication()
+            .UseHttpsRedirection();
+
+    public static void UseOpenApiServices(this IApplicationBuilder builder) =>
+        builder.UseOpenApiDocumentation();
 }

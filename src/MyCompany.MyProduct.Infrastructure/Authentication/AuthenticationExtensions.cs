@@ -12,8 +12,8 @@ internal static class AuthenticationExtensions
         services.ConfigureJwtProvider();
         services.ConfigureJwtOptions();
         services.ConfigureJwtBearerOptions();
-        services.AddJwtAuthentication();
-        services.AddHttpContextRelatedServices();
+        services.ConfigureJwtAuthentication();
+        services.ConfigureHttpContextRelatedServices();
 
         return services;
     }
@@ -27,14 +27,14 @@ internal static class AuthenticationExtensions
     private static void ConfigureJwtBearerOptions(this IServiceCollection services) =>
         services.ConfigureOptions<JwtBearerOptionsSetup>();
 
-    private static void AddJwtAuthentication(this IServiceCollection services) =>
+    private static void ConfigureJwtAuthentication(this IServiceCollection services) =>
         services.AddAuthentication(options =>
         {
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
         }).AddJwtBearer();
 
-    private static void AddHttpContextRelatedServices(this IServiceCollection services) =>
+    private static void ConfigureHttpContextRelatedServices(this IServiceCollection services) =>
         services
             .AddSingleton<IUserIdentifierProvider, UserIdentifierProvider>()
             .AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

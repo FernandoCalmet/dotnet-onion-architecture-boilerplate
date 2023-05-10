@@ -5,6 +5,6 @@ namespace MyCompany.MyProduct.Infrastructure.Notifications;
 
 internal static class NotificationExtensions
 {
-    internal static IServiceCollection AddNotifications(this IServiceCollection services) =>
+    internal static IServiceCollection AddNotificationServices(this IServiceCollection services) =>
         services.AddScoped<IEmailNotificationService, EmailNotificationService>();
 }

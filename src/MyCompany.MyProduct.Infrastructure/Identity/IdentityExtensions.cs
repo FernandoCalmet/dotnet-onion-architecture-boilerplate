@@ -7,16 +7,16 @@ namespace MyCompany.MyProduct.Infrastructure.Identity;
 
 internal static class IdentityExtensions
 {
-    internal static IServiceCollection ConfigureIdentity(this IServiceCollection services)
+    internal static IServiceCollection AddIdentityServices(this IServiceCollection services)
     {
-        AddScopedUserService(services);
+        ConfigureScopedUserService(services);
         ConfigureIdentityCore(services);
         ConfigureIdentityOptions(services);
 
         return services;
     }
 
-    private static void AddScopedUserService(IServiceCollection services) =>
+    private static void ConfigureScopedUserService(IServiceCollection services) =>
         services.AddScoped<IUserService, UserService>();
 
     private static void ConfigureIdentityCore(IServiceCollection services)

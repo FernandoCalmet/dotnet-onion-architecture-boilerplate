@@ -7,13 +7,7 @@ namespace MyCompany.MyProduct.Application;
 
 public static class ApplicationServicesExtensions
 {
-    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
-    {
-        ConfigureServices(services);
-        return services;
-    }
-
-    private static void ConfigureServices(IServiceCollection services)
+    public static void AddApplicationServices(this IServiceCollection services)
     {
         ConfigureMediatR(services);
         ConfigurePipelineBehaviors(services);

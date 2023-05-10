@@ -7,7 +7,7 @@ namespace MyCompany.MyProduct.Infrastructure.Mapping;
 
 internal static class MappingExtensions
 {
-    internal static IServiceCollection AddMapping(this IServiceCollection services)
+    internal static IServiceCollection AddMappingServices(this IServiceCollection services)
     {
         TypeAdapterConfig config = TypeAdapterConfig.GlobalSettings;
         config.Scan(Assembly.GetExecutingAssembly());

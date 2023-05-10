@@ -7,10 +7,24 @@ namespace MyCompany.MyProduct.Infrastructure.OpenApi;
 
 internal static class OpenApiExtensions
 {
-    internal static IServiceCollection AddOpenApiDocumentation(this IServiceCollection services, IConfiguration configuration)
+    internal static IServiceCollection AddOpenApiDocumentationServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.ConfigureOptions<SwaggerOptionsSetup>();
+        services.ConfigureSwagger(configuration);
 
+        return services;
+    }
+
+    internal static IApplicationBuilder UseOpenApiDocumentation(this IApplicationBuilder app)
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+
+        return app;
+    }
+
+    private static void ConfigureSwagger(this IServiceCollection services, IConfiguration configuration)
+    {
         services.AddEndpointsApiExplorer();
 
         services.AddSwaggerGen(swaggerGenOptions =>
@@ -61,15 +75,5 @@ internal static class OpenApiExtensions
                 }
             });
         });
-
-        return services;
-    }
-
-    internal static IApplicationBuilder UseOpenApiDocumentation(this IApplicationBuilder app)
-    {
-        app.UseSwagger();
-        app.UseSwaggerUI();
-
-        return app;
     }
 }

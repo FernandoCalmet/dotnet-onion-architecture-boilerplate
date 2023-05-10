@@ -8,28 +8,16 @@ public static class WebApplicationExtensions
 {
     public static void ConfigureServices(this WebApplicationBuilder builder)
     {
-        AddApplicationServices(builder);
-        AddPresentationServices(builder);
-        AddLoggingServices(builder);
+        builder.Services.AddInfrastructureServices(builder.Configuration);
+        builder.Services.AddApplicationServices();
+        builder.Services.AddPresentationServices();
+        builder.AddLoggingServices();
     }
 
     public static void ConfigureMiddleware(this WebApplication app)
     {
-        app.UseHttpsRedirection();
-        app.UseAuthorization();
-        app.UseAuthentication();
-        app.MapControllers();
+        app.UsePresentationServices();
         app.UseInfrastructureServices();
+        app.UseOpenApiServices();
     }
-
-    private static void AddApplicationServices(WebApplicationBuilder builder) =>
-        builder.Services
-            .AddInfrastructureServices(builder.Configuration)
-            .AddApplicationServices();
-
-    private static void AddPresentationServices(WebApplicationBuilder builder) =>
-        builder.Services.AddPresentationServices();
-
-    private static void AddLoggingServices(WebApplicationBuilder builder) =>
-        builder.UseLoggingServices();
 }
