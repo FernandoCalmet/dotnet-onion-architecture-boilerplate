@@ -11,6 +11,8 @@ internal class UserRoleConfiguration : IEntityTypeConfiguration<ApplicationUserR
     {
         builder.ToTable(TableNames.UserRoles, SchemaNames.Identity);
 
+        builder.HasKey(ur => new { ur.UserId, ur.RoleId });
+
         builder.HasOne<ApplicationUser>()
             .WithMany(u => u.UserRoles)
             .HasForeignKey(ur => ur.UserId)

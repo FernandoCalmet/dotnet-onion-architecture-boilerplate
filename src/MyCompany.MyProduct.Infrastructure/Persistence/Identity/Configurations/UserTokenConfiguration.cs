@@ -11,6 +11,8 @@ internal class UserTokenConfiguration : IEntityTypeConfiguration<ApplicationUser
     {
         builder.ToTable(TableNames.UserTokens, SchemaNames.Identity);
 
+        builder.HasKey(ut => new { ut.UserId, ut.LoginProvider, ut.Name });
+
         builder.HasOne<ApplicationUser>()
             .WithMany(u => u.UserTokens)
             .HasForeignKey(ut => ut.UserId)

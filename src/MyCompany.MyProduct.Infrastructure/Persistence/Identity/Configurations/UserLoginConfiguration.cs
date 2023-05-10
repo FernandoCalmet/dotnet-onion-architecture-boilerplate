@@ -10,5 +10,7 @@ internal class UserLoginConfiguration : IEntityTypeConfiguration<ApplicationUser
     public void Configure(EntityTypeBuilder<ApplicationUserLogin> builder)
     {
         builder.ToTable(TableNames.UserLogins, SchemaNames.Identity);
+
+        builder.HasKey(ul => new { ul.LoginProvider, ul.ProviderKey });
     }
 }

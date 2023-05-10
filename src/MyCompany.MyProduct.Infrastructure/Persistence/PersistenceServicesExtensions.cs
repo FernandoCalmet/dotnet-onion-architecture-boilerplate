@@ -27,9 +27,10 @@ internal static class PersistenceServicesExtensions
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                 builder => builder.MigrationsAssembly(typeof(IdentityDbContext).Assembly.FullName)));
 
-    private static void ConfigureServices(IServiceCollection services) =>
-        services
-            .AddScoped(provider => provider.GetRequiredService<ApplicationDbContext>())
-            .AddScoped(provider => provider.GetRequiredService<IdentityDbContext>())
-            .AddScoped<IUnitOfWork, UnitOfWork>();
+    private static void ConfigureServices(IServiceCollection services)
+    {
+        services.AddScoped<ApplicationDbContext>();
+        services.AddScoped<IdentityDbContext>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+    }
 }
