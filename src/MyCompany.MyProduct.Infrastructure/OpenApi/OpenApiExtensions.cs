@@ -17,50 +17,49 @@ internal static class OpenApiExtensions
         {
             var swaggerOptions = configuration.GetSection(nameof(SwaggerOptions)).Get<SwaggerOptions>()!;
 
-            if (swaggerOptions.Enable)
+            if (!swaggerOptions.Enable) return;
+
+            swaggerGenOptions.SwaggerDoc(swaggerOptions.Name, new OpenApiInfo
             {
-                swaggerGenOptions.SwaggerDoc(swaggerOptions.Name, new OpenApiInfo
+                Title = swaggerOptions.Title,
+                Version = swaggerOptions.Version,
+                Description = swaggerOptions.Description,
+                Contact = new OpenApiContact
                 {
-                    Title = swaggerOptions.Title,
-                    Version = swaggerOptions.Version,
-                    Description = swaggerOptions.Description,
-                    Contact = new OpenApiContact
-                    {
-                        Name = swaggerOptions.ContactName,
-                        Email = swaggerOptions.ContactEmail,
-                        Url = new Uri(swaggerOptions.ContactUrl)
-                    },
-                    License = swaggerOptions.License ? new OpenApiLicense
-                    {
-                        Name = swaggerOptions.LicenseName,
-                        Url = new Uri(swaggerOptions.LicenseUrl)
-                    } : null
-                });
+                    Name = swaggerOptions.ContactName,
+                    Email = swaggerOptions.ContactEmail,
+                    Url = new Uri(swaggerOptions.ContactUrl)
+                },
+                License = swaggerOptions.License ? new OpenApiLicense
+                {
+                    Name = swaggerOptions.LicenseName,
+                    Url = new Uri(swaggerOptions.LicenseUrl)
+                } : null
+            });
 
-                swaggerGenOptions.AddSecurityDefinition(swaggerOptions.SecurityScheme, new OpenApiSecurityScheme
-                {
-                    Description = swaggerOptions.Description,
-                    Name = swaggerOptions.SecurityName,
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = swaggerOptions.SecurityScheme
-                });
+            swaggerGenOptions.AddSecurityDefinition(swaggerOptions.SecurityScheme, new OpenApiSecurityScheme
+            {
+                Description = swaggerOptions.Description,
+                Name = swaggerOptions.SecurityName,
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.ApiKey,
+                Scheme = swaggerOptions.SecurityScheme
+            });
 
-                swaggerGenOptions.AddSecurityRequirement(new OpenApiSecurityRequirement
+            swaggerGenOptions.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
                 {
+                    new OpenApiSecurityScheme
                     {
-                        new OpenApiSecurityScheme
+                        Reference = new OpenApiReference
                         {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = swaggerOptions.SecurityScheme
-                            }
-                        },
-                        Array.Empty<string>()
-                    }
-                });
-            }
+                            Type = ReferenceType.SecurityScheme,
+                            Id = swaggerOptions.SecurityScheme
+                        }
+                    },
+                    Array.Empty<string>()
+                }
+            });
         });
 
         return services;

@@ -95,6 +95,7 @@ MyCompany.MyProduct.sln
 │   │   ├───Common
 │   │   ├───Emails
 │   │   ├───Identity
+│   │   ├───Logging
 │   │   ├───Mapping
 │   │   ├───Messaging
 │   │   ├───Notifications

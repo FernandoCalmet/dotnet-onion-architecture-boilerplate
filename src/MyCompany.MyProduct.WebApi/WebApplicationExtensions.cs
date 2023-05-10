@@ -10,6 +10,7 @@ public static class WebApplicationExtensions
     {
         AddApplicationServices(builder);
         AddPresentationServices(builder);
+        AddLoggingServices(builder);
     }
 
     public static void ConfigureMiddleware(this WebApplication app)
@@ -28,4 +29,7 @@ public static class WebApplicationExtensions
 
     private static void AddPresentationServices(WebApplicationBuilder builder) =>
         builder.Services.AddPresentationServices();
+
+    private static void AddLoggingServices(WebApplicationBuilder builder) =>
+        builder.UseLoggingServices();
 }
