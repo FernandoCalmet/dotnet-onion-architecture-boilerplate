@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
-using MyCompany.MyProduct.Core.Shared.ResultComponent;
+using MyCompany.MyProduct.Core.Shared;
 
 namespace MyCompany.MyProduct.Application.Behaviors;
 

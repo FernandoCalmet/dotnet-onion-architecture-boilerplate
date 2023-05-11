@@ -1,8 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MyCompany.MyProduct.Core.Shared.ErrorComponent;
-using MyCompany.MyProduct.Core.Shared.ResultComponent;
+using MyCompany.MyProduct.Core.Shared;
 
 namespace MyCompany.MyProduct.Presentation.Abstractions;
 

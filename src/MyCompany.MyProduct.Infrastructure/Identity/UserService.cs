@@ -1,8 +1,7 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Identity;
 using MyCompany.MyProduct.Application.Abstractions.Identity;
-using MyCompany.MyProduct.Core.Shared.ErrorComponent;
-using MyCompany.MyProduct.Core.Shared.ResultComponent;
+using MyCompany.MyProduct.Core.Shared;
 
 namespace MyCompany.MyProduct.Infrastructure.Identity;
 

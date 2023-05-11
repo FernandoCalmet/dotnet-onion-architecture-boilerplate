@@ -1,4 +1,4 @@
-﻿namespace MyCompany.MyProduct.Core.Shared.MaybeComponent;
+﻿namespace MyCompany.MyProduct.Core.Shared;
 
 public sealed class Maybe<T> : IEquatable<Maybe<T>>
 {

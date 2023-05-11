@@ -6,7 +6,7 @@ using MyCompany.MyProduct.Application.Abstractions.Authentication;
 using MyCompany.MyProduct.Application.UsesCases.Authentication.Login;
 using MyCompany.MyProduct.Application.UsesCases.Authentication.Register;
 using MyCompany.MyProduct.Core.Errors;
-using MyCompany.MyProduct.Core.Shared.ResultComponent;
+using MyCompany.MyProduct.Core.Shared;
 using MyCompany.MyProduct.Presentation.Abstractions;
 using MyCompany.MyProduct.Presentation.Contracts.Authentication;
 

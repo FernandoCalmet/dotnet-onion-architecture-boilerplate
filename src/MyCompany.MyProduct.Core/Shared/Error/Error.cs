@@ -1,4 +1,4 @@
-﻿namespace MyCompany.MyProduct.Core.Shared.ErrorComponent;
+﻿namespace MyCompany.MyProduct.Core.Shared;
 
 public class Error : IEquatable<Error>
 {

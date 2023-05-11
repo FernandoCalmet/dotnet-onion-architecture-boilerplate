@@ -1,6 +1,4 @@
-﻿using MyCompany.MyProduct.Core.Shared.ErrorComponent;
-
-namespace MyCompany.MyProduct.Core.Shared.ResultComponent;
+﻿namespace MyCompany.MyProduct.Core.Shared;
 
 public sealed class ValidationResult<TValue> : Result<TValue>, IValidationResult
 {

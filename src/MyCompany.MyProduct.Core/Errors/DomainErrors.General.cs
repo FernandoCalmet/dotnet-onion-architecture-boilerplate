@@ -1,4 +1,4 @@
-﻿using MyCompany.MyProduct.Core.Shared.ErrorComponent;
+﻿using MyCompany.MyProduct.Core.Shared;
 
 namespace MyCompany.MyProduct.Core.Errors;
 

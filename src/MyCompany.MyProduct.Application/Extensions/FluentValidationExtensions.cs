@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using MyCompany.MyProduct.Core.Shared;
-using MyCompany.MyProduct.Core.Shared.ErrorComponent;
 
 namespace MyCompany.MyProduct.Application.Extensions;
 

@@ -2,7 +2,7 @@
 using MyCompany.MyProduct.Application.Abstractions.Identity;
 using MyCompany.MyProduct.Application.Abstractions.Messaging;
 using MyCompany.MyProduct.Application.Errors;
-using MyCompany.MyProduct.Core.Shared.ResultComponent;
+using MyCompany.MyProduct.Core.Shared;
 
 namespace MyCompany.MyProduct.Application.UsesCases.Authentication.Register;
 

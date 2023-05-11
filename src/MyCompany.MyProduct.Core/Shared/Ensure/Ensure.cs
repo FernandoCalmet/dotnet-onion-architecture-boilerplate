@@ -1,4 +1,4 @@
-﻿namespace MyCompany.MyProduct.Core.Shared.EnsureComponent;
+﻿namespace MyCompany.MyProduct.Core.Shared;
 
 public static class Ensure
 {

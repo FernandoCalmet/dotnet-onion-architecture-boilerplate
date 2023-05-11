@@ -1,5 +1,5 @@
 ﻿using FluentValidation.Results;
-using MyCompany.MyProduct.Core.Shared.ErrorComponent;
+using MyCompany.MyProduct.Core.Shared;
 
 namespace MyCompany.MyProduct.Application.Exceptions;
 
