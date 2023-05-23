@@ -16,15 +16,14 @@ internal sealed class UnitOfWork : IUnitOfWork
 
     public UnitOfWork(ApplicationDbContext dbContext, IPublisher publisher, IDateTime dateTime)
     {
-        _dbContext = dbContext;
-        _publisher = publisher;
-        _dateTime = dateTime;
+        _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+        _publisher = publisher ?? throw new ArgumentNullException(nameof(publisher));
+        _dateTime = dateTime ?? throw new ArgumentNullException(nameof(dateTime));
     }
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         await PublishDomainEventsAsync(cancellationToken);
-
         return await _dbContext.SaveChangesAsync(cancellationToken);
     }
 
@@ -33,35 +32,23 @@ internal sealed class UnitOfWork : IUnitOfWork
 
     public void UpdateAuditableEntities()
     {
-        IEnumerable<EntityEntry<IAuditableEntity>> entries =
-            _dbContext
-                .ChangeTracker
-                .Entries<IAuditableEntity>();
+        var entries = _dbContext.ChangeTracker.Entries<IAuditableEntity>();
 
-        foreach (EntityEntry<IAuditableEntity> entityEntry in entries)
+        foreach (var entityEntry in entries)
         {
             if (entityEntry.State == EntityState.Added)
-            {
-                entityEntry.Property(a => a.CreatedOnUtc)
-                    .CurrentValue = _dateTime.UtcNow;
-            }
+                entityEntry.Property(a => a.CreatedOnUtc).CurrentValue = _dateTime.UtcNow;
 
             if (entityEntry.State == EntityState.Modified)
-            {
-                entityEntry.Property(a => a.ModifiedOnUtc)
-                    .CurrentValue = _dateTime.UtcNow;
-            }
+                entityEntry.Property(a => a.ModifiedOnUtc).CurrentValue = _dateTime.UtcNow;
         }
     }
 
     public void UpdateSoftDeletableEntities()
     {
-        foreach (EntityEntry<ISoftDeletableEntity> entityEntry in _dbContext.ChangeTracker.Entries<ISoftDeletableEntity>())
+        foreach (var entityEntry in _dbContext.ChangeTracker.Entries<ISoftDeletableEntity>())
         {
-            if (entityEntry.State != EntityState.Deleted)
-            {
-                continue;
-            }
+            if (entityEntry.State != EntityState.Deleted) continue;
 
             entityEntry.Property(nameof(ISoftDeletableEntity.DeletedOnUtc)).CurrentValue = DateTime.UtcNow;
             entityEntry.Property(nameof(ISoftDeletableEntity.Deleted)).CurrentValue = true;
@@ -73,12 +60,7 @@ internal sealed class UnitOfWork : IUnitOfWork
 
     private static void UpdateDeletedEntityEntryReferencesToUnchanged(EntityEntry entityEntry)
     {
-        if (!entityEntry.References.Any())
-        {
-            return;
-        }
-
-        foreach (ReferenceEntry referenceEntry in entityEntry.References.Where(r => r.TargetEntry.State == EntityState.Deleted))
+        foreach (var referenceEntry in entityEntry.References.Where(r => r.TargetEntry.State == EntityState.Deleted))
         {
             referenceEntry.TargetEntry.State = EntityState.Unchanged;
             UpdateDeletedEntityEntryReferencesToUnchanged(referenceEntry.TargetEntry);
@@ -91,27 +73,15 @@ internal sealed class UnitOfWork : IUnitOfWork
         var domainEvents = GetDomainEvents(aggregateRoots);
         ClearDomainEvents(aggregateRoots);
 
-        await PublishEventsAsync(domainEvents, cancellationToken);
+        await Task.WhenAll(domainEvents.Select(domainEvent => _publisher.Publish(domainEvent, cancellationToken)));
     }
 
     private List<EntityEntry<AggregateRoot>> GetChangedAggregateRoots()
-    {
-        return _dbContext.ChangeTracker
-            .Entries<AggregateRoot>()
-            .Where(entityEntry => entityEntry.Entity.GetDomainEvents().Any())
-            .ToList();
-    }
+        => _dbContext.ChangeTracker.Entries<AggregateRoot>().Where(e => e.Entity.GetDomainEvents().Any()).ToList();
 
-    private static IEnumerable<IDomainEvent> GetDomainEvents(IEnumerable<EntityEntry<AggregateRoot>> aggregateRoots) =>
-        aggregateRoots.SelectMany(entityEntry => entityEntry.Entity.GetDomainEvents());
+    private static IEnumerable<IDomainEvent> GetDomainEvents(IEnumerable<EntityEntry<AggregateRoot>> aggregateRoots)
+        => aggregateRoots.SelectMany(e => e.Entity.GetDomainEvents());
 
-    private static void ClearDomainEvents(List<EntityEntry<AggregateRoot>> aggregateRoots) =>
-        aggregateRoots.ForEach(entityEntry => entityEntry.Entity.ClearDomainEvents());
-
-    private async Task PublishEventsAsync(IEnumerable<IDomainEvent> domainEvents, CancellationToken cancellationToken)
-    {
-        IEnumerable<Task> tasks = domainEvents.Select(domainEvent => _publisher.Publish(domainEvent, cancellationToken));
-
-        await Task.WhenAll(tasks);
-    }
+    private static void ClearDomainEvents(IEnumerable<EntityEntry<AggregateRoot>> aggregateRoots)
+        => aggregateRoots.ToList().ForEach(e => e.Entity.ClearDomainEvents());
 }
