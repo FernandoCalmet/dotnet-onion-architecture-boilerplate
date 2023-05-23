@@ -1,6 +1,8 @@
-﻿namespace MyCompany.MyProduct.Application.Abstractions.Authentication;
+﻿using MyCompany.MyProduct.Application.Abstractions.Identity;
+
+namespace MyCompany.MyProduct.Application.Abstractions.Authentication;
 
 public interface IJwtProvider
 {
-    string Generate(Guid userId, string userEmail);
+    Task<string> Generate(UserDto user);
 }

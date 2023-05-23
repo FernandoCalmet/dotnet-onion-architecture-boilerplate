@@ -5,44 +5,48 @@ namespace MyCompany.MyProduct.Application.Abstractions.Identity;
 public interface IUserService
 {
     // User
-    Task<Result> CreateUserAsync(UserDto user, string password);
-    Task<UserDto> FindByEmailAsync(string email);
-    Task<bool> IsEmailUniqueAsync(string email);
-    Task<bool> CheckPasswordAsync(UserDto user, string password);
-    Task<bool> HasPasswordAsync(UserDto user);
+    Task<Result> CreateUser(UserDto user, string password);
+    Task<Result> UpdateUser(UserDto user);
+    Task<Result> DeleteUser(Guid userId);
+    Task<Result<UserDto>> FindById(Guid userId);
+    Task<Result<UserDto>> FindByEmail(string email);
+    Task<Result> IsEmailUnique(string email);
+    Task<Result> CheckPassword(Guid userId, string password);
+    Task<Result> HasPassword(Guid userId);
 
     // Two-Factor Authentication
-    Task EnableTwoFactorAuthenticationAsync(UserDto user);
-    Task DisableTwoFactorAuthenticationAsync(UserDto user);
-    Task<bool> IsTwoFactorAuthenticationEnabledAsync(UserDto user);
-    Task<bool> HasAuthenticatorAsync(UserDto user);
+    Task<Result> EnableTwoFactorAuthentication(Guid userId);
+    Task<Result> DisableTwoFactorAuthentication(Guid userId);
+    Task<Result> IsTwoFactorAuthenticationEnabled(Guid userId);
+    Task<Result> HasAuthenticator(Guid userId);
 
     // Account Lockout
-    Task LockAccountAsync(UserDto user);
-    Task UnlockAccountAsync(UserDto user);
-    Task<bool> IsLockedOutAsync(UserDto user);
+    Task<Result> LockAccount(Guid userId);
+    Task<Result> UnlockAccount(Guid userId);
+    Task<Result> IsLockedOut(Guid userId);
 
     // Email & Phone Number Confirmation
-    Task<string> GenerateEmailConfirmationTokenAsync(UserDto user);
-    Task<string> ConfirmEmailAsync(UserDto user, string token);
-    Task<bool> IsEmailConfirmedAsync(UserDto user);
-    Task<string> ConfirmPhoneNumberAsync(UserDto user, string code);
-    Task<bool> IsPhoneNumberConfirmedAsync(UserDto user);
+    Task<Result> GenerateEmailConfirmationToken(Guid userId);
+    Task<Result> ConfirmEmail(Guid userId, string token);
+    Task<Result> IsEmailConfirmed(Guid userId);
+    Task<Result> ConfirmPhoneNumber(Guid userId, string code);
+    Task<Result> IsPhoneNumberConfirmed(Guid userId);
 
     // Roles
-    Task<IEnumerable<RoleDto>> GetAllRolesAsync();
-    Task<RoleDto> GetRoleByIdAsync(string roleId);
-    Task CreateRoleAsync(RoleDto roleDto);
-    Task UpdateRoleAsync(RoleDto roleDto);
-    Task DeleteRoleAsync(string roleId);
-    Task<bool> IsInRoleAsync(UserDto user, string role);
+    Task<Result> GetAllRoles();
+    Task<Result<IEnumerable<RoleDto>>> GetRolesByUserId(Guid userId);
+    Task<Result> GetRoleById(string roleId);
+    Task<Result> CreateRole(RoleDto roleDto);
+    Task<Result> UpdateRole(RoleDto roleDto);
+    Task<Result> DeleteRole(string roleId);
+    Task<Result> IsInRole(Guid userId, string role);
 
     // Permissions
-    Task<List<string>> GetPermissionsAsync(UserDto user);
-    Task<bool> HasPermissionAsync(UserDto user, string permission);
+    Task<Result<IEnumerable<string>>> GetPermissions(Guid userId);
+    Task<Result> HasPermission(Guid userId, string permission);
 
     // Password Reset
-    Task<string> GeneratePasswordResetTokenAsync(UserDto user);
-    Task<string> ResetPasswordAsync(UserDto user, string token, string newPassword);
-    Task<string> ChangePasswordAsync(UserDto user, string currentPassword, string newPassword);
+    Task<Result> GeneratePasswordResetToken(Guid userId);
+    Task<Result> ResetPassword(Guid userId, string token, string newPassword);
+    Task<Result> ChangePassword(Guid userId, string currentPassword, string newPassword);
 }

@@ -18,4 +18,11 @@
     <ProjectReference Include="..\MyCompany.MyProduct.Core\MyCompany.MyProduct.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UsesCases\Users\ChangePassword\" />
+    <Folder Include="UsesCases\Users\ConfirmEmail\" />
+    <Folder Include="UsesCases\Users\ConfirmPhoneNumber\" />
+    <Folder Include="UsesCases\Users\UpdateProfile\" />
+  </ItemGroup>
+
 </Project>

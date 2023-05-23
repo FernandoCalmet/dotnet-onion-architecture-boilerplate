@@ -1,7 +1,6 @@
 ﻿using MyCompany.MyProduct.Application.Abstractions.Authentication;
 using MyCompany.MyProduct.Application.Abstractions.Identity;
 using MyCompany.MyProduct.Application.Abstractions.Messaging;
-using MyCompany.MyProduct.Application.Errors;
 using MyCompany.MyProduct.Core.Shared;
 
 namespace MyCompany.MyProduct.Application.UsesCases.Authentication.Login;
@@ -20,45 +19,27 @@ internal sealed class LoginUserQueryHandler
 
     public async Task<Result<AuthenticationResult>> Handle(LoginUserQuery request, CancellationToken cancellationToken)
     {
-        Maybe<UserDto> maybeUser = await _userService.FindByEmailAsync(request.Email);
-        if (maybeUser.HasNoValue)
+        var user = await _userService.FindByEmail(request.Email);
+        if (user.IsFailure)
         {
-            return Result.Failure<AuthenticationResult>(ValidationErrors.Authentication.InvalidEmailOrPassword);
+            return Result.Failure<AuthenticationResult>(user.Error);
         }
 
-        UserDto user = maybeUser.Value;
-
-        var emailValidationResult = await ValidateEmailConfirmationAsync(user);
+        var emailValidationResult = await _userService.IsEmailConfirmed(user.Value.Id);
         if (emailValidationResult.IsFailure)
         {
             return Result.Failure<AuthenticationResult>(emailValidationResult.Error);
         }
 
-        var credentialsValidationResult = await ValidateUserCredentialsAsync(user, request.Password);
+        var credentialsValidationResult = await _userService.CheckPassword(user.Value.Id, request.Password);
         return credentialsValidationResult.IsFailure
             ? Result.Failure<AuthenticationResult>(credentialsValidationResult.Error)
-            : Result.Success(CreateAuthenticationResult(user));
+            : Result.Success(await CreateAuthenticationResult(user.Value));
     }
 
-    private async Task<Result> ValidateEmailConfirmationAsync(UserDto user)
+    private async Task<AuthenticationResult> CreateAuthenticationResult(UserDto user)
     {
-        var isEmailConfirmed = await _userService.IsEmailConfirmedAsync(user);
-        return !isEmailConfirmed
-            ? Result.Failure(ValidationErrors.Authentication.EmailNotConfirmed)
-            : Result.Success();
-    }
-
-    private async Task<Result> ValidateUserCredentialsAsync(UserDto user, string password)
-    {
-        var isValidPassword = await _userService.CheckPasswordAsync(user, password);
-        return !isValidPassword
-            ? Result.Failure(ValidationErrors.Authentication.InvalidEmailOrPassword)
-            : Result.Success();
-    }
-
-    private AuthenticationResult CreateAuthenticationResult(UserDto user)
-    {
-        var token = _jwtProvider.Generate(user.Id, user.Email);
+        var token = await _jwtProvider.Generate(user);
         return new AuthenticationResult { IsAuthenticated = true, AccessToken = token };
     }
 }

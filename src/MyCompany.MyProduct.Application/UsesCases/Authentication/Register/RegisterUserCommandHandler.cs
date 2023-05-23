@@ -1,7 +1,6 @@
 ﻿using MyCompany.MyProduct.Application.Abstractions.Authentication;
 using MyCompany.MyProduct.Application.Abstractions.Identity;
 using MyCompany.MyProduct.Application.Abstractions.Messaging;
-using MyCompany.MyProduct.Application.Errors;
 using MyCompany.MyProduct.Core.Shared;
 
 namespace MyCompany.MyProduct.Application.UsesCases.Authentication.Register;
@@ -20,32 +19,34 @@ internal sealed class RegisterUserCommandHandler
 
     public async Task<Result<AuthenticationResult>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
-        var emailCheckResult = await EnsureEmailIsUniqueAsync(request.Email);
+        var emailCheckResult = await _userService.IsEmailUnique(request.Email);
         if (emailCheckResult.IsFailure)
         {
             return Result.Failure<AuthenticationResult>(emailCheckResult.Error);
         }
 
-        var user = new UserDto(Guid.NewGuid(), request.Email);
-        var userCreatedResult = await _userService.CreateUserAsync(user, request.Password);
+        var user = new UserDto
+        {
+            Id = Guid.NewGuid(),
+            Email = request.Email,
+            UserName = GenerateUserNameFromEmail(request.Email)
+        };
+        var userCreatedResult = await _userService.CreateUser(user, request.Password);
+
         return userCreatedResult.IsFailure
             ? Result.Failure<AuthenticationResult>(userCreatedResult.Error)
-            : Result.Success(CreateAuthenticationResult(user));
+            : Result.Success(await CreateAuthenticationResult(user));
     }
 
-    private async Task<Result> EnsureEmailIsUniqueAsync(string email)
+    private async Task<AuthenticationResult> CreateAuthenticationResult(UserDto user)
     {
-        if (await _userService.IsEmailUniqueAsync(email))
-        {
-            return Result.Success();
-        }
-
-        return Result.Failure(ValidationErrors.User.DuplicateEmail);
-    }
-
-    private AuthenticationResult CreateAuthenticationResult(UserDto user)
-    {
-        var token = _jwtProvider.Generate(user.Id, user.Email);
+        var token = await _jwtProvider.Generate(user);
         return new AuthenticationResult { IsAuthenticated = true, AccessToken = token };
+    }
+
+    private static string GenerateUserNameFromEmail(string email)
+    {
+        var username = email.Split('@')[0];
+        return username;
     }
 }

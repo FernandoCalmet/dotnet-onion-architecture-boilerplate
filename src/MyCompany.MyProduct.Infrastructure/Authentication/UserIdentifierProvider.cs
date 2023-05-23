@@ -18,7 +18,7 @@ internal sealed class UserIdentifierProvider : IUserIdentifierProvider
         var userId = httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
         if (userId is null)
         {
-            throw new InvalidOperationException("User identifier not found.");
+            throw new InvalidOperationException("Account identifier not found.");
         }
 
         return Guid.Parse(userId);
