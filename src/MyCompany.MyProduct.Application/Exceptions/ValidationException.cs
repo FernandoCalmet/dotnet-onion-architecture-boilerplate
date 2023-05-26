@@ -3,7 +3,7 @@ using MyCompany.MyProduct.Core.Shared;
 
 namespace MyCompany.MyProduct.Application.Exceptions;
 
-public sealed class ValidationException : Exception
+public sealed class ValidationException : CustomException
 {
     public ValidationException(IEnumerable<ValidationFailure> failures)
         : base("One or more validation failures has occurred.") =>
