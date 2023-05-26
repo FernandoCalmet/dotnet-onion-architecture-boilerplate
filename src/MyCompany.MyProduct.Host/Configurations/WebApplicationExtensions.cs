@@ -3,7 +3,7 @@ using MyCompany.MyProduct.Infrastructure;
 using MyCompany.MyProduct.Persistence;
 using MyCompany.MyProduct.Presentation;
 
-namespace MyCompany.MyProduct.WebApi.Configurations;
+namespace MyCompany.MyProduct.Host.Configurations;
 
 internal static class WebApplicationExtensions
 {
