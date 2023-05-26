@@ -20,7 +20,7 @@ internal sealed class RegisterUserCommandHandler
     public async Task<Result<AuthenticationResult>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
         var emailCheckResult = await _userService.IsEmailUnique(request.Email);
-        if (emailCheckResult.IsFailure)
+        if (!emailCheckResult.IsFailure)
         {
             return Result.Failure<AuthenticationResult>(emailCheckResult.Error);
         }
@@ -34,7 +34,7 @@ internal sealed class RegisterUserCommandHandler
         var userCreatedResult = await _userService.CreateUser(user, request.Password);
 
         return userCreatedResult.IsFailure
-            ? Result.Failure<AuthenticationResult>(userCreatedResult.Error)
+            ? Result.Failure<AuthenticationResult>(userCreatedResult.Errors.First())
             : Result.Success(await CreateAuthenticationResult(user));
     }
 

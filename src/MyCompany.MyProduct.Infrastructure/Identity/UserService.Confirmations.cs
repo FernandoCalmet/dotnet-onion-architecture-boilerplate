@@ -6,44 +6,30 @@ internal partial class UserService
 {
     public async Task<Result> GenerateEmailConfirmationToken(Guid userId)
     {
-        Maybe<ApplicationUser> maybeUser = await _userManager.FindByIdAsync(userId.ToString()) ?? null!;
-        if (maybeUser.HasNoValue)
-        {
-            return Result.Failure(IdentityErrors.Account.UserNotFound);
-        }
+        var user = await GetUserById(userId);
 
-        var user = maybeUser.Value;
-        var result = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        var result = await _userManager.GenerateEmailConfirmationTokenAsync(user.Value);
 
         return Result.Success(result);
     }
 
     public async Task<Result> ConfirmEmail(Guid userId, string token)
     {
-        Maybe<ApplicationUser> maybeUser = await _userManager.FindByIdAsync(userId.ToString()) ?? null!;
-        if (maybeUser.HasNoValue)
-        {
-            return Result.Failure(IdentityErrors.Account.UserNotFound);
-        }
+        var user = await GetUserById(userId);
 
-        var user = maybeUser.Value;
-        var result = await _userManager.ConfirmEmailAsync(user, token);
+        var result = await _userManager.ConfirmEmailAsync(user.Value, token);
+        var errors = result.Errors.Select(x => new Error(x.Code, x.Description));
 
         return result.Succeeded
             ? Result.Success()
-            : Result.Create(string.Join(", ", result.Errors.Select(e => e.Description)));
+            : Result.Failure(errors);
     }
 
     public async Task<Result> IsEmailConfirmed(Guid userId)
     {
-        Maybe<ApplicationUser> maybeUser = await _userManager.FindByIdAsync(userId.ToString()) ?? null!;
-        if (maybeUser.HasNoValue)
-        {
-            return Result.Failure(IdentityErrors.Account.UserNotFound);
-        }
+        var user = await GetUserById(userId);
 
-        var user = maybeUser.Value;
-        var isEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
+        var isEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user.Value);
 
         return isEmailConfirmed
             ? Result.Success(isEmailConfirmed)
@@ -52,37 +38,26 @@ internal partial class UserService
 
     public async Task<Result> ConfirmPhoneNumber(Guid userId, string code)
     {
-        Maybe<ApplicationUser> maybeUser = await _userManager.FindByIdAsync(userId.ToString()) ?? null!;
-        if (maybeUser.HasNoValue)
-        {
-            return Result.Failure(IdentityErrors.Account.UserNotFound);
-        }
+        var user = await GetUserById(userId);
 
-        var user = maybeUser.Value;
-
-        if (user.PhoneNumber is null)
+        if (user.Value.PhoneNumber is null)
         {
             return Result.Failure(IdentityErrors.Account.PhoneNumberNotSet);
         }
 
-        var identityResult = await _userManager.ChangePhoneNumberAsync(user, user.PhoneNumber, code);
-        var result = Result.Create(string.Join(", ", identityResult.Errors.Select(e => e.Description)));
+        var result = await _userManager.ChangePhoneNumberAsync(user.Value, user.Value.PhoneNumber, code);
+        var errors = result.Errors.Select(x => new Error(x.Code, x.Description));
 
-        return identityResult.Succeeded
+        return result.Succeeded
             ? Result.Success()
-            : Result.Failure(result.Error);
+            : Result.Failure(errors);
     }
 
     public async Task<Result> IsPhoneNumberConfirmed(Guid userId)
     {
-        Maybe<ApplicationUser> maybeUser = await _userManager.FindByIdAsync(userId.ToString()) ?? null!;
-        if (maybeUser.HasNoValue)
-        {
-            return Result.Failure(IdentityErrors.Account.UserNotFound);
-        }
+        var user = await GetUserById(userId);
 
-        var user = maybeUser.Value;
-        var isPhoneNumberConfirmed = await _userManager.IsPhoneNumberConfirmedAsync(user);
+        var isPhoneNumberConfirmed = await _userManager.IsPhoneNumberConfirmedAsync(user.Value);
 
         return isPhoneNumberConfirmed
             ? Result.Success(isPhoneNumberConfirmed)

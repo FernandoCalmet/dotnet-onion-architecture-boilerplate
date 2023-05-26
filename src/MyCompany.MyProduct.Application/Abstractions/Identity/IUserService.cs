@@ -8,8 +8,8 @@ public interface IUserService
     Task<Result> CreateUser(UserDto user, string password);
     Task<Result> UpdateUser(UserDto user);
     Task<Result> DeleteUser(Guid userId);
-    Task<Result<UserDto>> FindById(Guid userId);
-    Task<Result<UserDto>> FindByEmail(string email);
+    Task<Result<UserDto>> FindUserById(Guid userId);
+    Task<Result<UserDto>> FindUserByEmail(string email);
     Task<Result> IsEmailUnique(string email);
     Task<Result> CheckPassword(Guid userId, string password);
     Task<Result> HasPassword(Guid userId);

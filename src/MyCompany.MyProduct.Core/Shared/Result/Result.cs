@@ -4,18 +4,32 @@ public class Result
 {
     protected internal Result(bool isSuccess, Error error)
     {
-        if (isSuccess && error != Error.None)
+        switch (isSuccess)
         {
-            throw new InvalidOperationException();
+            case true when error != Error.None:
+                throw new InvalidOperationException();
+            case false when error == Error.None:
+                throw new InvalidOperationException();
+            default:
+                IsSuccess = isSuccess;
+                Error = error;
+                break;
         }
+    }
 
-        if (!isSuccess && error == Error.None)
+    protected internal Result(bool isSuccess, IEnumerable<Error> errors)
+    {
+        switch (isSuccess)
         {
-            throw new InvalidOperationException();
+            case true when errors.Any():
+                throw new InvalidOperationException();
+            case false when !errors.Any():
+                throw new InvalidOperationException();
+            default:
+                IsSuccess = isSuccess;
+                Errors = errors;
+                break;
         }
-
-        IsSuccess = isSuccess;
-        Error = error;
     }
 
     public bool IsSuccess { get; }
@@ -23,6 +37,8 @@ public class Result
     public bool IsFailure => !IsSuccess;
 
     public Error Error { get; }
+
+    public IEnumerable<Error> Errors { get; } = Enumerable.Empty<Error>();
 
     public static Result Success() => new(true, Error.None);
 
@@ -32,15 +48,17 @@ public class Result
     public static Result Failure(Error error) =>
         new(false, error);
 
+    public static Result Failure(IEnumerable<Error> errors) =>
+        new(false, errors);
+
     public static Result<TValue> Failure<TValue>(Error error) =>
         new(default, false, error);
 
     public static Result<TValue> Create<TValue>(TValue? value) =>
         value is not null ? Success(value) : Failure<TValue>(Error.NullValue);
 
-    public static Result<TValue> Create<TValue>(TValue value, Error error)
-        where TValue : class
-        => value is null ? Failure<TValue>(error) : Success(value);
+    public static Result<TValue> Create<TValue>(TValue value, Error error) where TValue : class =>
+        value is null ? Failure<TValue>(error) : Success(value);
 
     public static Result FirstFailureOrSuccess(params Result[] results)
     {

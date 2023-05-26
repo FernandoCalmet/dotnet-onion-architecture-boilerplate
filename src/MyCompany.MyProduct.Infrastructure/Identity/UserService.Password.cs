@@ -6,51 +6,34 @@ internal partial class UserService
 {
     public async Task<Result> GeneratePasswordResetToken(Guid userId)
     {
-        Maybe<ApplicationUser> maybeUser = await _userManager.FindByIdAsync(userId.ToString()) ?? null!;
+        var user = await GetUserById(userId);
 
-        if (maybeUser.HasNoValue)
-        {
-            return Result.Failure<ApplicationUser>(IdentityErrors.Account.UserNotFound);
-        }
+        var result = await _userManager.GeneratePasswordResetTokenAsync(user.Value);
 
-        var user = maybeUser.Value;
-        var result = await _userManager.GeneratePasswordResetTokenAsync(user);
         return Result.Success(result);
     }
 
     public async Task<Result> ResetPassword(Guid userId, string token, string newPassword)
     {
-        Maybe<ApplicationUser> maybeUser = await _userManager.FindByIdAsync(userId.ToString()) ?? null!;
+        var user = await GetUserById(userId);
 
-        if (maybeUser.HasNoValue)
-        {
-            return Result.Failure<ApplicationUser>(IdentityErrors.Account.UserNotFound);
-        }
+        var result = await _userManager.ResetPasswordAsync(user.Value, token, newPassword);
+        var errors = result.Errors.Select(x => new Error(x.Code, x.Description));
 
-        var user = maybeUser.Value;
-        var identityResult = await _userManager.ResetPasswordAsync(user, token, newPassword);
-        var result = Result.Create(identityResult.Errors.Select(x => new Error(x.Code, x.Description)));
-
-        return identityResult.Succeeded
+        return result.Succeeded
             ? Result.Success()
-            : Result.Failure(result.Error);
+            : Result.Failure(errors);
     }
 
     public async Task<Result> ChangePassword(Guid userId, string currentPassword, string newPassword)
     {
-        Maybe<ApplicationUser> maybeUser = await _userManager.FindByIdAsync(userId.ToString()) ?? null!;
+        var user = await GetUserById(userId);
 
-        if (maybeUser.HasNoValue)
-        {
-            return Result.Failure<ApplicationUser>(IdentityErrors.Account.UserNotFound);
-        }
+        var result = await _userManager.ChangePasswordAsync(user.Value, currentPassword, newPassword);
+        var errors = result.Errors.Select(x => new Error(x.Code, x.Description));
 
-        var user = maybeUser.Value;
-        var identityResult = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
-        var result = Result.Create(identityResult.Errors.Select(x => new Error(x.Code, x.Description)));
-
-        return identityResult.Succeeded
+        return result.Succeeded
             ? Result.Success()
-            : Result.Failure(result.Error);
+            : Result.Failure(errors);
     }
 }

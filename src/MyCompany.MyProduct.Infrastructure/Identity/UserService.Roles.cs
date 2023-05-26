@@ -17,15 +17,12 @@ internal partial class UserService
 
     public async Task<Result<IEnumerable<RoleDto>>> GetRolesByUserId(Guid userId)
     {
-        Maybe<ApplicationUser> maybeUser = await _userManager.FindByIdAsync(userId.ToString()) ?? null!;
-        if (maybeUser.HasNoValue)
-        {
-            return Result.Failure<IEnumerable<RoleDto>>(Account.UserNotFound);
-        }
+        var user = await GetUserById(userId);
 
-        var user = maybeUser.Value;
-        var roles = await _userManager.GetRolesAsync(user);
+        var roles = await _userManager.GetRolesAsync(user.Value);
+
         var listRoles = roles.Adapt<IEnumerable<RoleDto>>();
+
         return Result.Success(listRoles);
     }
 
@@ -40,12 +37,13 @@ internal partial class UserService
     public async Task<Result> CreateRole(RoleDto roleDto)
     {
         var role = roleDto.Adapt<ApplicationRole>();
-        var identityResult = await _roleManager.CreateAsync(role);
-        var result = Result.Create(string.Join(", ", identityResult.Errors.Select(e => e.Description)));
 
-        return identityResult.Succeeded
+        var result = await _roleManager.CreateAsync(role);
+        var errors = result.Errors.Select(x => new Error(x.Code, x.Description));
+
+        return result.Succeeded
             ? Result.Success()
-            : Result.Failure(result.Error);
+            : Result.Failure(errors);
     }
 
     public async Task<Result> UpdateRole(RoleDto roleDto)
@@ -57,12 +55,13 @@ internal partial class UserService
         }
 
         roleDto.Adapt(role);
-        var identityResult = await _roleManager.UpdateAsync(role);
-        var result = Result.Create(string.Join(", ", identityResult.Errors.Select(e => e.Description)));
 
-        return identityResult.Succeeded
+        var result = await _roleManager.UpdateAsync(role);
+        var errors = result.Errors.Select(x => new Error(x.Code, x.Description));
+
+        return result.Succeeded
             ? Result.Success()
-            : Result.Failure(result.Error);
+            : Result.Failure(errors);
     }
 
     public async Task<Result> DeleteRole(string roleId)
@@ -73,28 +72,24 @@ internal partial class UserService
             return Result.Failure(Role.NotFound);
         }
 
-        var identityResult = await _roleManager.DeleteAsync(role);
-        var result = Result.Create(string.Join(", ", identityResult.Errors.Select(e => e.Description)));
+        var result = await _roleManager.DeleteAsync(role);
+        var errors = result.Errors.Select(x => new Error(x.Code, x.Description));
 
-        return identityResult.Succeeded
+        return result.Succeeded
             ? Result.Success()
-            : Result.Failure(result.Error);
+            : Result.Failure(errors);
     }
 
     public async Task<Result> IsInRole(Guid userId, string role)
     {
-        Maybe<ApplicationUser> maybeUser = await _userManager.FindByIdAsync(userId.ToString()) ?? null!;
-        if (maybeUser.HasNoValue)
-        {
-            return Result.Failure(Account.UserNotFound);
-        }
+        var user = await GetUserById(userId);
 
-        var user = maybeUser.Value;
-        var isInRole = await _userManager.IsInRoleAsync(user, role);
-        var result = Result.Create(string.Join(", ", isInRole));
+        var isInRole = await _userManager.IsInRoleAsync(user.Value, role);
+
+        var error = new Error("IsInRole", $"User {userId} is not in role {role}.");
 
         return isInRole
             ? Result.Success(isInRole)
-            : Result.Failure(result.Error);
+            : Result.Failure(error);
     }
 }

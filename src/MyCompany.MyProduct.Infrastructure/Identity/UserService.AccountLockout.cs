@@ -6,51 +6,33 @@ internal partial class UserService
 {
     public async Task<Result> LockAccount(Guid userId)
     {
-        Maybe<ApplicationUser> maybeUser = await _userManager.FindByIdAsync(userId.ToString()) ?? null!;
+        var user = await GetUserById(userId);
 
-        if (maybeUser.HasNoValue)
-        {
-            return Result.Failure<ApplicationUser>(IdentityErrors.Account.UserNotFound);
-        }
+        var result = await _userManager.SetLockoutEndDateAsync(user.Value, DateTimeOffset.UtcNow.AddYears(100));
+        var errors = result.Errors.Select(x => new Error(x.Code, x.Description));
 
-        var user = maybeUser.Value;
-        var identityResult = await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.UtcNow.AddYears(100));
-        var result = Result.Create(identityResult.Errors.Select(x => new Error(x.Code, x.Description)));
-
-        return identityResult.Succeeded
+        return result.Succeeded
             ? Result.Success()
-            : Result.Failure(result.Error);
+            : Result.Failure(errors);
     }
 
     public async Task<Result> UnlockAccount(Guid userId)
     {
-        Maybe<ApplicationUser> maybeUser = await _userManager.FindByIdAsync(userId.ToString()) ?? null!;
+        var user = await GetUserById(userId);
 
-        if (maybeUser.HasNoValue)
-        {
-            return Result.Failure<ApplicationUser>(IdentityErrors.Account.UserNotFound);
-        }
+        var result = await _userManager.SetLockoutEndDateAsync(user.Value, null);
+        var errors = result.Errors.Select(x => new Error(x.Code, x.Description));
 
-        var user = maybeUser.Value;
-        var identityResult = await _userManager.SetLockoutEndDateAsync(user, null);
-        var result = Result.Create(identityResult.Errors.Select(x => new Error(x.Code, x.Description)));
-
-        return identityResult.Succeeded
+        return result.Succeeded
             ? Result.Success()
-            : Result.Failure(result.Error);
+            : Result.Failure(errors);
     }
 
     public async Task<Result> IsLockedOut(Guid userId)
     {
-        Maybe<ApplicationUser> maybeUser = await _userManager.FindByIdAsync(userId.ToString()) ?? null!;
+        var user = await GetUserById(userId);
 
-        if (maybeUser.HasNoValue)
-        {
-            return Result.Failure<ApplicationUser>(IdentityErrors.Account.UserNotFound);
-        }
-
-        var user = maybeUser.Value;
-        var isLockedOut = await _userManager.IsLockedOutAsync(user);
+        var isLockedOut = await _userManager.IsLockedOutAsync(user.Value);
 
         return !isLockedOut
             ? Result.Success(isLockedOut)

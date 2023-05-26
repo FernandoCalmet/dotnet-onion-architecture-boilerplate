@@ -7,61 +7,43 @@ internal partial class UserService
 {
     public async Task<Result> EnableTwoFactorAuthentication(Guid userId)
     {
-        Maybe<ApplicationUser> maybeUser = await _userManager.FindByIdAsync(userId.ToString()) ?? null!;
-        if (maybeUser.HasNoValue)
-        {
-            return Result.Failure(Account.UserNotFound);
-        }
+        var user = await GetUserById(userId);
 
-        var user = maybeUser.Value;
-        var identityResult = await _userManager.SetTwoFactorEnabledAsync(user, true);
-        var result = Result.Create(identityResult.Errors.Select(x => new Error(x.Code, x.Description)));
+        var result = await _userManager.SetTwoFactorEnabledAsync(user.Value, true);
+        var errors = result.Errors.Select(x => new Error(x.Code, x.Description));
 
-        return identityResult.Succeeded
+        return result.Succeeded
             ? Result.Success()
-            : Result.Failure(result.Error);
+            : Result.Failure(errors);
     }
 
     public async Task<Result> DisableTwoFactorAuthentication(Guid userId)
     {
-        Maybe<ApplicationUser> maybeUser = await _userManager.FindByIdAsync(userId.ToString()) ?? null!;
-        if (maybeUser.HasNoValue)
-        {
-            return Result.Failure(Account.UserNotFound);
-        }
+        var user = await GetUserById(userId);
 
-        var user = maybeUser.Value;
-        var identityResult = await _userManager.SetTwoFactorEnabledAsync(user, false);
-        var result = Result.Create(identityResult.Errors.Select(x => new Error(x.Code, x.Description)));
+        var result = await _userManager.SetTwoFactorEnabledAsync(user.Value, false);
+        var errors = result.Errors.Select(x => new Error(x.Code, x.Description));
 
-        return identityResult.Succeeded
+        return result.Succeeded
             ? Result.Success()
-            : Result.Failure(result.Error);
+            : Result.Failure(errors);
     }
 
     public async Task<Result> IsTwoFactorAuthenticationEnabled(Guid userId)
     {
-        Maybe<ApplicationUser> maybeUser = await _userManager.FindByIdAsync(userId.ToString()) ?? null!;
-        if (maybeUser.HasNoValue)
-        {
-            return Result.Failure(Account.UserNotFound);
-        }
+        var user = await GetUserById(userId);
 
-        var user = maybeUser.Value;
-        var identityResult = await _userManager.GetTwoFactorEnabledAsync(user);
+        var identityResult = await _userManager.GetTwoFactorEnabledAsync(user.Value);
+
         return Result.Success(identityResult);
     }
 
     public async Task<Result> HasAuthenticator(Guid userId)
     {
-        Maybe<ApplicationUser> maybeUser = await _userManager.FindByIdAsync(userId.ToString()) ?? null!;
-        if (maybeUser.HasNoValue)
-        {
-            return Result.Failure(Account.UserNotFound);
-        }
+        var user = await GetUserById(userId);
 
-        var user = maybeUser.Value;
-        var authenticatorKey = await _userManager.GetAuthenticatorKeyAsync(user);
+        var authenticatorKey = await _userManager.GetAuthenticatorKeyAsync(user.Value);
+
         return !string.IsNullOrEmpty(authenticatorKey)
             ? Result.Success(authenticatorKey)
             : Result.Failure(Account.AuthenticatorKeyNotFound);

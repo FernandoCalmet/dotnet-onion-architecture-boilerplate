@@ -19,7 +19,7 @@ internal sealed class LoginUserQueryHandler
 
     public async Task<Result<AuthenticationResult>> Handle(LoginUserQuery request, CancellationToken cancellationToken)
     {
-        var user = await _userService.FindByEmail(request.Email);
+        var user = await _userService.FindUserByEmail(request.Email);
         if (user.IsFailure)
         {
             return Result.Failure<AuthenticationResult>(user.Error);
