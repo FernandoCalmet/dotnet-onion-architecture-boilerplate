@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using MyCompany.MyProduct.Application.Abstractions.Identity;
 using MyCompany.MyProduct.Application.Exceptions;
 using MyCompany.MyProduct.Core.Shared;
+using MyCompany.MyProduct.Infrastructure.Authentication;
 using static MyCompany.MyProduct.Infrastructure.Identity.IdentityErrors;
 
 namespace MyCompany.MyProduct.Infrastructure.Identity;
@@ -12,15 +13,18 @@ internal partial class UserService : IUserService
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<ApplicationRole> _roleManager;
     private readonly IPasswordHasher<ApplicationUser> _passwordHasher;
+    private readonly JwtOptions _jwtOptions;
 
     public UserService(
         UserManager<ApplicationUser> userManager,
         RoleManager<ApplicationRole> roleManager,
-        IPasswordHasher<ApplicationUser> passwordHasher)
+        IPasswordHasher<ApplicationUser> passwordHasher,
+        JwtOptions jwtOptions)
     {
         _userManager = userManager;
         _roleManager = roleManager;
         _passwordHasher = passwordHasher;
+        _jwtOptions = jwtOptions;
     }
 
     public async Task<Result> CreateUser(UserDto user, string password)

@@ -9,7 +9,6 @@ internal static class AuthenticationExtensions
 {
     internal static IServiceCollection AddAuthenticationServices(this IServiceCollection services)
     {
-        services.ConfigureJwtProvider();
         services.ConfigureJwtOptions();
         services.ConfigureJwtBearerOptions();
         services.ConfigureJwtAuthentication();
@@ -17,9 +16,6 @@ internal static class AuthenticationExtensions
 
         return services;
     }
-
-    private static void ConfigureJwtProvider(this IServiceCollection services) =>
-        services.AddScoped<IJwtProvider, JwtProvider>();
 
     private static void ConfigureJwtOptions(this IServiceCollection services) =>
         services.ConfigureOptions<JwtOptionsSetup>();

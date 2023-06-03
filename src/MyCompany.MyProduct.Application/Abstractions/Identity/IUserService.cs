@@ -1,4 +1,5 @@
-﻿using MyCompany.MyProduct.Core.Shared;
+﻿using MyCompany.MyProduct.Application.Abstractions.Authentication;
+using MyCompany.MyProduct.Core.Shared;
 
 namespace MyCompany.MyProduct.Application.Abstractions.Identity;
 
@@ -49,4 +50,8 @@ public interface IUserService
     Task<Result> GeneratePasswordResetToken(Guid userId);
     Task<Result> ResetPassword(Guid userId, string token, string newPassword);
     Task<Result> ChangePassword(Guid userId, string currentPassword, string newPassword);
+
+    // Token Generation
+    Task<AuthenticationResult> GenerateToken(UserDto user);
+    Task<Result<AuthenticationResult>> RefreshToken(string refreshToken);
 }

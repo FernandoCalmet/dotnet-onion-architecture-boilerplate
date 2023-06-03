@@ -9,12 +9,10 @@ internal sealed class LoginUserQueryHandler
     : IQueryHandler<LoginUserQuery, Result<AuthenticationResult>>
 {
     private readonly IUserService _userService;
-    private readonly IJwtProvider _jwtProvider;
 
-    public LoginUserQueryHandler(IUserService userService, IJwtProvider jwtProvider)
+    public LoginUserQueryHandler(IUserService userService)
     {
         _userService = userService;
-        _jwtProvider = jwtProvider;
     }
 
     public async Task<Result<AuthenticationResult>> Handle(LoginUserQuery request, CancellationToken cancellationToken)
@@ -34,12 +32,6 @@ internal sealed class LoginUserQueryHandler
         var credentialsValidationResult = await _userService.CheckPassword(user.Value.Id, request.Password);
         return credentialsValidationResult.IsFailure
             ? Result.Failure<AuthenticationResult>(credentialsValidationResult.Error)
-            : Result.Success(await CreateAuthenticationResult(user.Value));
-    }
-
-    private async Task<AuthenticationResult> CreateAuthenticationResult(UserDto user)
-    {
-        var token = await _jwtProvider.Generate(user);
-        return new AuthenticationResult { IsAuthenticated = true, AccessToken = token };
+            : Result.Success(await _userService.GenerateToken(user.Value));
     }
 }

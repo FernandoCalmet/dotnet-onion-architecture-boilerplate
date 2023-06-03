@@ -9,12 +9,10 @@ internal sealed class RegisterUserCommandHandler
     : ICommandHandler<RegisterUserCommand, Result<AuthenticationResult>>
 {
     private readonly IUserService _userService;
-    private readonly IJwtProvider _jwtProvider;
 
-    public RegisterUserCommandHandler(IUserService userService, IJwtProvider jwtProvider)
+    public RegisterUserCommandHandler(IUserService userService)
     {
         _userService = userService;
-        _jwtProvider = jwtProvider;
     }
 
     public async Task<Result<AuthenticationResult>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
@@ -35,18 +33,8 @@ internal sealed class RegisterUserCommandHandler
 
         return userCreatedResult.IsFailure
             ? Result.Failure<AuthenticationResult>(userCreatedResult.Errors.First())
-            : Result.Success(await CreateAuthenticationResult(user));
+            : Result.Success(await _userService.GenerateToken(user));
     }
 
-    private async Task<AuthenticationResult> CreateAuthenticationResult(UserDto user)
-    {
-        var token = await _jwtProvider.Generate(user);
-        return new AuthenticationResult { IsAuthenticated = true, AccessToken = token };
-    }
-
-    private static string GenerateUserNameFromEmail(string email)
-    {
-        var username = email.Split('@')[0];
-        return username;
-    }
+    private static string GenerateUserNameFromEmail(string email) => email.Split('@')[0];
 }
