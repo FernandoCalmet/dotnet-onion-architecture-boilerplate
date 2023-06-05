@@ -42,12 +42,12 @@ internal static class OpenApiExtensions
                 {
                     Name = swaggerOptions.ContactName,
                     Email = swaggerOptions.ContactEmail,
-                    Url = new Uri(swaggerOptions.ContactUrl)
+                    Url = new Uri(swaggerOptions.ContactUrl ?? string.Empty)
                 },
                 License = swaggerOptions.License ? new OpenApiLicense
                 {
                     Name = swaggerOptions.LicenseName,
-                    Url = new Uri(swaggerOptions.LicenseUrl)
+                    Url = new Uri(swaggerOptions.LicenseUrl ?? string.Empty)
                 } : null
             });
 
