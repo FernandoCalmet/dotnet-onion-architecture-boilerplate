@@ -2,6 +2,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using MyCompany.MyProduct.Application.Behaviors;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("MyCompany.MyProduct.Application.UnitTests")]
 
 namespace MyCompany.MyProduct.Application;
 

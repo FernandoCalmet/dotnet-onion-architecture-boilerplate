@@ -6,6 +6,10 @@ internal static partial class ValidationErrors
 {
     internal static class User
     {
+        internal static Error CreationFailed => new(
+            "User.CreationFailed",
+            "The user could not be created.");
+
         internal static Error NotFound => new(
             "User.NotFound",
             "The user with the specified identifier was not found.");
